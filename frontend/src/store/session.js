@@ -3,14 +3,14 @@ import { csrfFetch } from "./csrf";
 //------------------------------------------------------login--------------------------
 const LOGIN = "/LOGIN";
 
-export const loggedIn = (user) => {
+export const setUser = (user) => {
   return {
     type: LOGIN,
     user,
   };
 };
 
-export const logIn = (data) => async (dispatch) => {
+export const login = (data) => async (dispatch) => {
   const res = await csrfFetch("/api/session", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -18,9 +18,20 @@ export const logIn = (data) => async (dispatch) => {
   });
 
   const user = await res.json();
-  dispatch(loggedIn(user));
+  dispatch(setUser(user));
 };
 //------------------------------------------------------login--------------------------
+//
+//
+//
+//------------------------------------------------------restore-user-------------------
+export const restoreUser = () => async (dispatch) => {
+  const response = await csrfFetch("/api/session");
+  const data = await response.json();
+  dispatch(setUser(data.user));
+  return response;
+};
+//------------------------------------------------------restore-user-------------------
 //
 //
 //
