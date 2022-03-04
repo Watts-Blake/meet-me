@@ -22,9 +22,9 @@ router.use("/users", usersRouter);
 //
 //
 //-------------------------------------------------------------------test routes---------------------------------------------------------------------
-router.post("/test", function (req, res) {
-  res.json({ requestBody: req.body });
-});
+// router.post("/test", function (req, res) {
+//   res.json({ requestBody: req.body });
+// });
 
 // GET /api/set-token-cookie
 router.get(
