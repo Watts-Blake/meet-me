@@ -44,13 +44,28 @@ export const loggedOut = () => {
   };
 };
 
-export const logOut = () => async (dispatch) => {
+export const logout = () => async (dispatch) => {
   await csrfFetch("/api/session", {
     method: "DELETE",
   });
   dispatch(loggedOut());
 };
 //------------------------------------------------------logout-------------------------
+//
+//
+//
+//------------------------------------------------------signup-------------------------
+export const signup = (user) => async (dispatch) => {
+  const res = await csrfFetch("/api/users", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(user), // email, password, username
+  });
+
+  const data = await res.json();
+  dispatch(setUser(data.user));
+};
+//------------------------------------------------------signup-------------------------
 //
 //
 //
