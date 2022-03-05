@@ -12,7 +12,10 @@ body {
   margin: 0;
   background-color: #3f3f3f;
 }
-
+#nav {
+  max-height: 89px;
+  margin-top: 0;
+}
 .hover {
   font-weight: bold;
 }

@@ -28,20 +28,24 @@ function Navigation({ isLoaded }) {
   }
 
   return (
-    <div className="container nav">
+    <div className="container nav" id="nav">
       <div className="container">
-        <NavLink
-          className="home__link"
-          exact
-          to="/"
-          style={{
-            textDecoration: "none",
-            color: "red",
-          }}
-        >
-          Up Squad
-        </NavLink>
-        <SearchBar />
+        <div className="container">
+          <NavLink
+            className="home__link"
+            exact
+            to="/"
+            style={{
+              textDecoration: "none",
+              color: "red",
+            }}
+          >
+            Up Squad
+          </NavLink>
+        </div>
+        <div className="container">
+          <SearchBar />
+        </div>
       </div>
 
       <div className="container">{isLoaded && sessionLinks}</div>
