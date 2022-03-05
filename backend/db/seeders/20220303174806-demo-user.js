@@ -7,17 +7,17 @@ module.exports = {
       "Users",
       [
         {
-          email: "demo@meetme.com",
+          email: "demo@demo.com",
           username: "Demo-User",
           hashedPassword: bcrypt.hashSync("password"),
         },
         {
-          email: "demo2@meetme.com",
+          email: "demo2@demo.com",
           username: "Demo-User-2",
           hashedPassword: bcrypt.hashSync("password2"),
         },
         {
-          email: "demo3@meetme.com",
+          email: "demo3@demo.com",
           username: "Demo-User-3",
           hashedPassword: bcrypt.hashSync("password3"),
         },
