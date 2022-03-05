@@ -7,6 +7,7 @@ function LoginForm() {
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
+  const [hover, setHover] = useState("false");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -27,32 +28,40 @@ function LoginForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="container" onSubmit={handleSubmit}>
       <ul>
         {errors.map((error, idx) => (
           <li key={idx}>{error}</li>
         ))}
       </ul>
-      <label>
+      <label className="container">
         Username or Email
         <input
+          className="card"
           type="text"
           value={credential}
           onChange={(e) => setCredential(e.target.value)}
           required
         />
       </label>
-      <label>
+      <label className="container">
         Password
         <input
+          className="card"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
       </label>
-      <button type="submit">Log In</button>
-      <button onClick={handleClick}>Demo User</button>
+      <div className="container">
+        <button className="card" type="submit">
+          Log In
+        </button>
+        <button className="card" onClick={handleClick}>
+          Demo User
+        </button>
+      </div>
     </form>
   );
 }
