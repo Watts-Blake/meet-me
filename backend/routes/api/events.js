@@ -93,7 +93,12 @@ router
     requireAuth,
     asyncHandler(async (req, res) => {
       const eventId = req.params.id * 1;
-      const rsvpList = await Rsvp.getAllRsvps(eventId);
+      const rsvpList = await Rsvp.findAll({
+        where: { eventId },
+        include: {
+          model: User,
+        },
+      });
       return res.json(rsvpList);
     })
   )

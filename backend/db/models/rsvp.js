@@ -1,4 +1,4 @@
-"use strict";
+("use strict");
 module.exports = (sequelize, DataTypes) => {
   const Rsvp = sequelize.define(
     "Rsvp",
@@ -26,12 +26,6 @@ module.exports = (sequelize, DataTypes) => {
 
   Rsvp.getRsvpById = async function (id) {
     return await Rsvp.findByPk(id);
-  };
-
-  Rsvp.getAllRsvps = async function (id) {
-    return await Rsvp.findAll({
-      where: { eventId: id },
-    });
   };
 
   return Rsvp;
