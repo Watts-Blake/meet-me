@@ -1,7 +1,6 @@
-"use strict";
 const bcrypt = require("bcryptjs");
 const { Validator } = require("sequelize");
-
+("use strict");
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
     "User",
@@ -60,6 +59,22 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   User.associate = function (models) {
+    User.hasMany(models.Event, {
+      foreignKey: "hostId",
+      onDelete: "CASCADE",
+      hooks: true,
+    });
+    User.hasMany(models.Rsvp, {
+      foreignKey: "userId",
+      onDelete: "CASCADE",
+      hooks: true,
+    });
+    User.hasMany(models.Group, {
+      foreignKey: "ownerId",
+      onDelete: "CASCADE",
+      hooks: true,
+    });
+    User.belongsTo(models.GroupMember, { foreignKey: "userId" });
     // associations can be defined here
   };
   User.getCurrentUserById = async function (id) {
