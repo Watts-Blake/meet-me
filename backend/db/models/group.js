@@ -33,5 +33,19 @@ module.exports = (sequelize, DataTypes) => {
   Group.getGroupById = async function (id) {
     return await Group.findByPk(id);
   };
+
+  Group.getGroupMemberById = async function (id) {
+    return await models.GroupMember.findByPk(id);
+  };
+
+  Group.getAllGroupMembers = async function (id) {
+    return await models.GroupMember.findAll({
+      include: {
+        model: models.GroupMember,
+        where: { groupId: id },
+      },
+    });
+  };
+
   return Group;
 };

@@ -29,18 +29,20 @@ module.exports = {
         type: Sequelize.STRING(10),
       },
       lat: {
-        type: Sequelize.DECIMAL(6, 4),
+        type: Sequelize.DECIMAL(7, 4),
       },
       long: {
-        type: Sequelize.DECIMAL(6, 4),
+        type: Sequelize.DECIMAL(7, 4),
       },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
+        defaultValue: Sequelize.fn("now"),
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
+        defaultValue: Sequelize.fn("now"),
       },
     });
   },

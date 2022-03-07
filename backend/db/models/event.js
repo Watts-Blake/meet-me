@@ -39,6 +39,7 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: "CASCADE",
       hooks: true,
     });
+    Event.belongsTo(models.Venue, { foreignKey: "venueId" });
     // associations can be defined here
   };
   Event.getEventById = async function (id) {

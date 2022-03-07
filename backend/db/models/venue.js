@@ -24,15 +24,16 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING(10),
       },
       lat: {
-        type: DataTypes.DECIMAL(6, 4),
+        type: DataTypes.DECIMAL(7, 4),
       },
       long: {
-        type: DataTypes.DECIMAL(6, 4),
+        type: DataTypes.DECIMAL(7, 4),
       },
     },
     {}
   );
   Venue.associate = function (models) {
+    Venue.hasMany(models.Event, { foreignKey: "venueId" });
     // associations can be defined here
   };
 
