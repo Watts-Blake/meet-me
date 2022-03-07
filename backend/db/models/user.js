@@ -60,7 +60,26 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   User.associate = function (models) {
-    // associations can be defined here
+    User.hasMany(models.Event, {
+      foreignKey: "hostId",
+      onDelete: "CASCADE",
+      hooks: true,
+    });
+    User.hasMany(models.Rsvp, {
+      foreignKey: "userId",
+      onDelete: "CASCADE",
+      hooks: true,
+    });
+    User.hasMany(models.Group, {
+      foreignKey: "ownerId",
+      onDelete: "CASCADE",
+      hooks: true,
+    });
+    User.hasMany(models.GroupMember, {
+      foreignKey: "userId",
+      onDelete: "CASCADE",
+      hooks: true,
+    });
   };
   User.getCurrentUserById = async function (id) {
     return await User.scope("currentUser").findByPk(id);
