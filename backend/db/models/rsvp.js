@@ -31,9 +31,6 @@ module.exports = (sequelize, DataTypes) => {
   Rsvp.getAllRsvps = async function (id) {
     return await Rsvp.findAll({
       where: { eventId: id },
-      include: {
-        model: User,
-      },
     });
   };
 
