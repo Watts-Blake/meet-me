@@ -30,5 +30,8 @@ module.exports = (sequelize, DataTypes) => {
     Group.belongsTo(models.Type, { foreignKey: "typeId" });
     // associations can be defined here
   };
+  Group.getGroupById = async function (id) {
+    return await Group.findByPk(id);
+  };
   return Group;
 };

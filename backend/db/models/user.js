@@ -75,8 +75,11 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: "CASCADE",
       hooks: true,
     });
-    User.belongsTo(models.GroupMember, { foreignKey: "userId" });
-    // associations can be defined here
+    User.hasMany(models.GroupMember, {
+      foreignKey: "userId",
+      onDelete: "CASCADE",
+      hooks: true,
+    });
   };
   User.getCurrentUserById = async function (id) {
     return await User.scope("currentUser").findByPk(id);

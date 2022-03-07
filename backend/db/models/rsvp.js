@@ -23,5 +23,19 @@ module.exports = (sequelize, DataTypes) => {
     });
     // associations can be defined here
   };
+
+  Rsvp.getRsvpById = async function (id) {
+    return await Rsvp.findByPk(id);
+  };
+
+  Rsvp.getAllRsvps = async function (id) {
+    return await Rsvp.findAll({
+      where: { eventId: id },
+      include: {
+        model: User,
+      },
+    });
+  };
+
   return Rsvp;
 };

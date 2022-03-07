@@ -40,5 +40,9 @@ module.exports = (sequelize, DataTypes) => {
     return await Venue.findByPk(id);
   };
 
+  Venue.getAllVenues = async function () {
+    return await Venue.findAll();
+  };
+
   return Venue;
 };

@@ -19,5 +19,17 @@ module.exports = (sequelize, DataTypes) => {
     GroupMember.belongsTo(models.User, { foreignKey: "userId" });
     // associations can be defined here
   };
+  GroupMember.getGroupMemberById = async function (id) {
+    return await GroupMember.findByPk(id);
+  };
+
+  GroupMember.getAllGroupMembers = async function (id) {
+    return await GroupMember.findAll({
+      where: { groupId: id },
+      include: {
+        model: User,
+      },
+    });
+  };
   return GroupMember;
 };
