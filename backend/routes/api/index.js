@@ -12,6 +12,7 @@ const sessionRouter = require("./session.js");
 const usersRouter = require("./users.js");
 const eventsRouter = require("./events.js");
 const venuesRouter = require("./venues");
+const typesRouter = require("./types");
 //---------------------------------------------------------------------routers imports---------------------------------------------------------------
 //
 //
@@ -21,6 +22,7 @@ router.use("/session", sessionRouter);
 router.use("/users", usersRouter);
 router.use("/events", eventsRouter);
 router.use("/venues", venuesRouter);
+router.use("/types", typesRouter);
 //---------------------------------------------------------------------routers-----------------------------------------------------------------------
 //
 //
