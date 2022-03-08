@@ -1,4 +1,4 @@
-const { User, Event, Rsvp } = require("../../db/models");
+const { User, Event, Rsvp, Venue, Type } = require("../../db/models");
 const { handleValidationErrors } = require("../../utils/validation");
 const { requireAuth } = require("../../utils/auth");
 //------------------------------------------------------middle-ware------------------------------------------
@@ -7,22 +7,22 @@ const asyncHandler = require("express-async-handler");
 const { check } = require("express-validator");
 const router = express.Router();
 
-const validateEventCreate = [
-  check("email")
-    .exists({ checkFalsy: true })
-    .isEmail()
-    .withMessage("Please provide a valid email."),
-  check("username")
-    .exists({ checkFalsy: true })
-    .isLength({ min: 4 })
-    .withMessage("Please provide a username with at least 4 characters."),
-  check("username").not().isEmail().withMessage("Username cannot be an email."),
-  check("password")
-    .exists({ checkFalsy: true })
-    .isLength({ min: 6 })
-    .withMessage("Password must be 6 characters or more."),
-  handleValidationErrors,
-];
+// const validateEventCreate = [
+//   check("email")
+//     .exists({ checkFalsy: true })
+//     .isEmail()
+//     .withMessage("Please provide a valid email."),
+//   check("username")
+//     .exists({ checkFalsy: true })
+//     .isLength({ min: 4 })
+//     .withMessage("Please provide a username with at least 4 characters."),
+//   check("username").not().isEmail().withMessage("Username cannot be an email."),
+//   check("password")
+//     .exists({ checkFalsy: true })
+//     .isLength({ min: 6 })
+//     .withMessage("Password must be 6 characters or more."),
+//   handleValidationErrors,
+// ];
 
 //------------------------------------------------------middle-ware------------------------------------------
 //
@@ -119,11 +119,11 @@ router.route("/:id/:userId").delete(
   asyncHandler(async (req, res) => {
     const eventId = req.params.id * 1;
     const userId = req.params.userId * 1;
-    const deleteRsvp = await Rsvp.findOne({ where: { eventId, userId } });
     await deleteRsvp.destroy();
     return res.json(rsvpList);
   })
 );
+
 //------------------------------------------------------routes------------------------------------------
 //
 //

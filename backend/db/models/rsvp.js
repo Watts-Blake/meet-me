@@ -24,9 +24,5 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
   };
 
-  Rsvp.getRsvpById = async function (id) {
-    return await Rsvp.findByPk(id);
-  };
-
   return Rsvp;
 };
