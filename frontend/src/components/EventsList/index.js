@@ -9,7 +9,7 @@ import { getEvents } from "../../store/eventReducer";
 const EventList = () => {
   const dispatch = useDispatch();
 
-  const eventsObj = useSelector((state) => state.event.entries);
+  const eventsObj = useSelector((state) => state.event);
   const events = Object.values(eventsObj);
   useEffect(() => {
     dispatch(getEvents());

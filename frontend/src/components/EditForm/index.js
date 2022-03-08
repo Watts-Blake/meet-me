@@ -2,11 +2,21 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import { postEvent } from "../../store/eventReducer";
+import { putEvent } from "../../store/eventReducer";
 import { getVenues } from "../../store/venues";
 import { getTypes } from "../../store/types";
 
-const EventForm = () => {
+const hoursTransform = (hours) => {
+  if (hours <= 12) {
+    return `${hours}:00 AM`;
+  } else if (hours === 0) {
+    return `1:00 AM`;
+  } else {
+    return `${hours - 12}:00 PM`;
+  }
+};
+
+const EditEventForm = ({ singleEvent }) => {
   const sessionUser = useSelector((state) => state.session.user);
   const [value, onChange] = useState(new Date());
   const dispatch = useDispatch();
@@ -14,16 +24,17 @@ const EventForm = () => {
   const venues = Object.values(venuesObj);
   const typesObj = useSelector((state) => state.type.entries);
   const types = Object.values(typesObj);
-
+  const hours = new Date(singleEvent.date).getHours();
+  const currentEventTime = hoursTransform(hours);
   useEffect(() => {
     dispatch(getVenues());
     dispatch(getTypes());
   }, [dispatch]);
   const [venue, setVenue] = useState("");
   const [type, setType] = useState("");
-  const [name, setName] = useState("");
-  const [time, setTime] = useState("");
-  const [capacity, setCapacity] = useState(5);
+  const [name, setName] = useState(singleEvent.name);
+  const [time, setTime] = useState(singleEvent.date);
+  const [capacity, setCapacity] = useState(singleEvent.capacity);
 
   const reset = () => {
     setVenue("");
@@ -48,13 +59,13 @@ const EventForm = () => {
       capacity,
     };
 
-    dispatch(postEvent(newEvent));
-    // reset();
+    dispatch(putEvent(newEvent));
+    reset();
   };
 
   return (
     <div className="container">
-      <h1>Create Event</h1>
+      <h1>Edit Event</h1>
       <form onSubmit={handleSubmit}>
         <div></div>
         <select className="card" onChange={(e) => setVenue(e.target.value)}>
@@ -74,11 +85,11 @@ const EventForm = () => {
           type="text"
           onChange={(e) => setName(e.target.value)}
           value={name}
-          placeholder="Event Name"
+          placeholder={singleEvent.name}
           name="title"
         />
         <select className="card" onChange={(e) => setCapacity(e.target.value)}>
-          <option>Capacity</option>
+          <option>{currentEventTime}</option>
           <option>5</option>
           <option>10</option>
           <option>15</option>
@@ -122,6 +133,7 @@ const EventForm = () => {
         <div className="card">
           <div>
             <select className="card" onChange={(e) => setTime(e.target.value)}>
+              <option>{currentEventTime}</option>
               <option>12:00 AM</option>
               <option>1:00 AM</option>
               <option>2:00 AM</option>
@@ -150,10 +162,12 @@ const EventForm = () => {
           </div>
         </div>
 
-        <button type="submit">Submit</button>
+        <button className={"card"} type="submit">
+          Confirm Changes
+        </button>
       </form>
     </div>
   );
 };
 
-export default EventForm;
+export default EditEventForm;

@@ -43,7 +43,7 @@ router
     requireAuth,
     asyncHandler(async (req, res) => {
       const event = await Event.create(req.body);
-      return res.redirect(event);
+      return res.json(event);
     })
   );
 router

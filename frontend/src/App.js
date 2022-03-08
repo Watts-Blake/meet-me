@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import SignUpFormPage from "./components/SignUpFormPage";
 import EventForm from "./components/EventForm";
@@ -11,6 +12,7 @@ import Navigation from "./components/Navigation";
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
+  const [value, setValue] = useState(new Date());
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
   }, [dispatch]);
