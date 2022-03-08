@@ -4,11 +4,11 @@ import { Route, Switch } from "react-router-dom";
 import SignUpFormPage from "./components/SignUpFormPage";
 import EventForm from "./components/EventForm";
 import EventList from "./components/EventsList";
+import SingleEvent from "./components/SingleEvent";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 
 function App() {
-  const [venues, setVenues] = useState(null);
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
@@ -28,6 +28,9 @@ function App() {
           </Route>
           <Route path="/events/add">
             <EventForm></EventForm>
+          </Route>
+          <Route path="/events/:id">
+            <SingleEvent></SingleEvent>
           </Route>
         </Switch>
       )}

@@ -43,7 +43,7 @@ router
     requireAuth,
     asyncHandler(async (req, res) => {
       const event = await Event.create(req.body);
-      return res.redirect(`${req.baseUrl}/${event.id}`);
+      return res.redirect(event);
     })
   );
 router

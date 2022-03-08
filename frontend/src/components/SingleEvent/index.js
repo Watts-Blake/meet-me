@@ -1,9 +1,18 @@
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { getEvents } from "../../store/eventReducer";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
-const SingleEvent = ({ events }) => {
+const SingleEvent = () => {
+  const dispatch = useDispatch();
   const { id } = useParams();
   const currentUser = useSelector((state) => state.session.user);
+  const eventsObj = useSelector((state) => state.event.entries);
+  const events = Object.values(eventsObj);
+  useEffect(() => {
+    dispatch(getEvents());
+  }, [dispatch]);
   const singleEvent = events.find((event) => event.id === +id);
   let eventOwner = false;
   if (currentUser && currentUser.id === singleEvent?.hostId) {
