@@ -37,13 +37,5 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
   };
 
-  Venue.getVenueById = async function (id) {
-    return await Venue.findByPk(id);
-  };
-
-  Venue.getAllVenues = async function () {
-    return await Venue.findAll();
-  };
-
   return Venue;
 };

@@ -8,7 +8,6 @@ export const loadEvents = (events) => {
 export const getEvents = () => async (dispatch) => {
   const res = await fetch("/api/events");
   const events = await res.json();
-  console.log(events);
   dispatch(loadEvents(events));
 };
 //--------------------------------------------add events-----------------------
@@ -62,7 +61,6 @@ export const deleteEvent = (data) => async (dispatch) => {
 
   dispatch(addEvent(deletedEvent));
 };
-
 //---------------------------------------------reducer----------------------------
 const initialState = { entries: {}, isLoading: true };
 

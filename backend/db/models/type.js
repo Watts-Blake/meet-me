@@ -15,8 +15,5 @@ module.exports = (sequelize, DataTypes) => {
     Type.hasMany(models.Event, { foreignKey: "typeId" });
     Type.hasMany(models.Group, { foreignKey: "typeId" });
   };
-  Type.getTypeById = async function (id) {
-    return await Type.findByPk(id);
-  };
   return Type;
 };

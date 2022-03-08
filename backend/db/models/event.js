@@ -42,8 +42,6 @@ module.exports = (sequelize, DataTypes) => {
     Event.belongsTo(models.Venue, { foreignKey: "venueId" });
     // associations can be defined here
   };
-  Event.getEventById = async function (id) {
-    return await Event.findByPk(id);
-  };
+
   return Event;
 };
