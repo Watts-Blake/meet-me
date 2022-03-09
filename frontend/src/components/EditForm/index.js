@@ -25,7 +25,17 @@ const EditEventForm = ({
   setShowModal2,
 }) => {
   const sessionUser = useSelector((state) => state.session.user);
-  const [value, onChange] = useState(new Date());
+  const eventId = singleEvent.id;
+  const hostId = sessionUser.id;
+
+  const eventsObj = useSelector((state) => state.event);
+
+  // console.log("events", eventId);
+  const events = Object.values(eventsObj);
+  const event = events.find((eve) => eve.id === eventId);
+  const [value, onChange] = useState(new Date(event.date));
+  // console.log("event", event);
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getVenues());
@@ -36,20 +46,35 @@ const EditEventForm = ({
   const venuesObj = useSelector((state) => state.venue.entries);
   const allVenues = Object.values(venuesObj);
 
-  const eventVenue = allVenues.find((ven) => ven.id === singleEvent.venueId);
-  console.log("singleEvent", singleEvent);
-  console.log("eventVenue", eventVenue);
+  const eventVenue = allVenues.find((ven) => ven.id === event.venueId);
+  // console.log("singleEvent", singleEvent);
+  // console.log("eventVenue", eventVenue);
   const typesObj = useSelector((state) => state.type.entries);
   const allTypes = Object.values(typesObj);
-  const eventType = allTypes.find((typ) => typ.id === singleEvent.typeId);
+  const eventType = allTypes.find((typ) => typ.id === event.typeId);
 
-  const hours = new Date(singleEvent.date).getHours();
-  const currentEventTime = hoursTransform(hours);
-  const [venueId, setVenueId] = useState(eventVenue.id);
-  const [typeId, setTypeId] = useState(singleEvent.typeId);
-  const [name, setName] = useState(singleEvent.name);
-  const [time, setTime] = useState(singleEvent.date);
+  const [venue, setVenue] = useState(eventVenue.name);
+  // console.log("venuuuuuuuuuuuuuuuuuuuuuuuuuu", venue);
+  const [venueId, setVenueId] = useState(event.venueId);
+  const [type, setType] = useState(eventType.name);
+  const [typeId, setTypeId] = useState(event.typeId);
+  const [name, setName] = useState(event.name);
+  const [hours, setHours] = useState(new Date(event.date).getHours());
+  const [time, setTime] = useState(hoursTransform(hours));
+  const [date, setDate] = useState(event.date);
   const [capacity, setCapacity] = useState(singleEvent.capacity);
+
+  useEffect(() => {
+    const newVenue = allVenues.find((ven) => ven.name === venue);
+    setVenueId(newVenue.id);
+    const newType = allTypes.find((typ) => typ.name === type);
+    setTypeId(newType.id);
+    const realDate = `${value.toDateString()} ${time}`;
+    setDate(realDate);
+    setHours(new Date(event.date).getHours());
+    setTime(hoursTransform(hours));
+    console.log(realDate);
+  }, [venue, type, allVenues, allTypes, time, value, hours, event.date]);
 
   const reset = () => {
     setVenueId("");
@@ -58,13 +83,17 @@ const EditEventForm = ({
     setTime(new Date().toString());
     setCapacity(5);
   };
-  const eventId = singleEvent.id;
-  const hostId = sessionUser.id;
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    setVenueId(allVenues.find((ven) => ven.name === name).id);
-    setTypeId(allTypes.find((typ) => typ.name === singleEvent.typeId));
-    const date = `${value.toDateString()} ${time}`;
+    // setVenue(allVenues.find((ven) => ven.name === venue.name));
+    // console.log("submit venue", venue);
+    // setVenueId(venue.id);
+    // setType(allTypes.find((typ) => typ.name === type.name));
+    // setTypeId(type);
+    // const realDate = `${value.toDateString()} ${time}`;
+    // setDate(realDate);
+    // console.log("dateeeeeeeeeeeeeeeeeeeeeeeee", date);
     const updatedEvent = {
       eventId,
       hostId,
@@ -77,7 +106,7 @@ const EditEventForm = ({
 
     dispatch(putEvent(updatedEvent));
     setShowModal2(false);
-    reset();
+    // reset();
   };
 
   return (
@@ -85,13 +114,13 @@ const EditEventForm = ({
       <h1>Edit Event</h1>
       <form onSubmit={handleSubmit}>
         <div></div>
-        <select className="card" onChange={(e) => setVenueId(e.target.value)}>
+        <select className="card" onChange={(e) => setVenue(e.target.value)}>
           <option>{eventVenue.name}</option>
           {allVenues.map((venue) => (
             <option key={venue.id}>{venue.name}</option>
           ))}
         </select>
-        <select className="card" onChange={(e) => setTypeId(e.target.value)}>
+        <select className="card" onChange={(e) => setType(e.target.value)}>
           <option>{eventType.name}</option>
           {allTypes.map((type) => (
             <option key={type.id}>{type.name}</option>
@@ -150,7 +179,7 @@ const EditEventForm = ({
         <div className="card">
           <div>
             <select className="card" onChange={(e) => setTime(e.target.value)}>
-              <option>{currentEventTime}</option>
+              <option>{time}</option>
               <option>12:00 AM</option>
               <option>1:00 AM</option>
               <option>2:00 AM</option>
