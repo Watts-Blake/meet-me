@@ -34,7 +34,15 @@ router
   .get(
     //get events
     asyncHandler(async (req, res) => {
-      const events = await Event.findAll();
+      const events = await Event.findAll({
+        include: [
+          { model: User },
+          { model: Type },
+          { model: Venue },
+          { model: Rsvp, include: [{ model: User }] },
+        ],
+      });
+      console.log(events);
       return res.json(events);
     })
   )
