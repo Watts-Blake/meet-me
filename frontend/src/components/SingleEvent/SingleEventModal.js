@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Modal } from "../../context/Modal";
 import SingleEvent from ".";
-
+import { getRsvps } from "../../store/rsvp";
+import { useDispatch } from "react-redux";
 const SingleEventModal = ({ id, name }) => {
   const [showModal1, setShowModal1] = useState(false);
+  const dispatch = useDispatch();
 
   return (
     <>

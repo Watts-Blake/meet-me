@@ -42,7 +42,7 @@ router
           { model: Rsvp, include: [{ model: User }] },
         ],
       });
-      console.log(events);
+
       return res.json(events);
     })
   )
@@ -78,7 +78,7 @@ router
     requireAuth,
     asyncHandler(async (req, res) => {
       const eventId = req.params.id * 1;
-      console.log("hereeeeeeeeeeeeeeeeeeeeeeeeeeee", eventId);
+      // console.log("hereeeeeeeeeeeeeeeeeeeeeeeeeeee", eventId);
       const event = await Event.findByPk(eventId);
 
       // if (req.session.auth.userId !== event.hostId) {
@@ -116,9 +116,11 @@ router
     requireAuth,
     asyncHandler(async (req, res) => {
       const eventId = req.params.id * 1;
-      const userId = req.session.auth.userId;
-      await Rsvp.create({ eventId, userId });
-      return res.json(rsvpList);
+      const userId = req.body.userId;
+      console.log("hereeeeeeeeeeeeeeeeeeeeeeeee", userId);
+      const rsvpFind = await Rsvp.create({ eventId, userId });
+      const rsvp = await Rsvp.findByPk(rsvpFind.id, { include: User });
+      return res.json(rsvp);
     })
   );
 
@@ -127,9 +129,15 @@ router.route("/:id/:userId").delete(
   requireAuth,
   asyncHandler(async (req, res) => {
     const eventId = req.params.id * 1;
-    const userId = req.params.userId * 1;
-    await deleteRsvp.destroy();
-    return res.json(rsvpList);
+    console.log("hereeeeeeeeeeeeeeeeeeeeeeeee is the event id", eventId);
+    const userId = req.body.userId;
+    console.log(
+      "hereeeeeeeeeeeeeeeeeeeeeeeee is the userrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr id",
+      eventId
+    );
+    const rsvp = await Rsvp.findOne({ where: { eventId, userId } });
+    await rsvp.destroy();
+    return res.json(rsvp);
   })
 );
 
