@@ -6,7 +6,7 @@ import { postEvent } from "../../store/eventReducer";
 import { getVenues } from "../../store/venues";
 import { getTypes } from "../../store/types";
 
-const EventForm = () => {
+const EventForm = ({ showModal, setShowModal }) => {
   const sessionUser = useSelector((state) => state.session.user);
   const [value, onChange] = useState(new Date());
   const dispatch = useDispatch();
@@ -39,6 +39,7 @@ const EventForm = () => {
     const realVenue = venues.find((ven) => ven.name === venue);
     console.log(date);
     const realType = types.find((typ) => typ.name === type);
+
     const newEvent = {
       hostId: sessionUser.id,
       venueId: realVenue.id,
@@ -49,6 +50,7 @@ const EventForm = () => {
     };
 
     dispatch(postEvent(newEvent));
+    setShowModal(false);
     // reset();
   };
 

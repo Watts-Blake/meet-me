@@ -12,7 +12,10 @@ const CreateModal = () => {
       </button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
-          <EventForm></EventForm>
+          <EventForm
+            showModal={showModal}
+            setShowModal={setShowModal}
+          ></EventForm>
         </Modal>
       )}
     </>

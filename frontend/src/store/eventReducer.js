@@ -34,31 +34,33 @@ export const updateEvent = (event) => ({
   event,
 });
 export const putEvent = (data) => async (dispatch) => {
-  const res = await csrfFetch(`/api/events/${data.id}`, {
+  const res = await csrfFetch(`/api/events/${data.eventId}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
   const updatedEvent = await res.json();
+  console.log("babessssssssssssssssssssssss", updatedEvent);
 
-  dispatch(addEvent(updatedEvent));
+  dispatch(updateEvent(updatedEvent));
 };
 
 //--------------------------------------------delete events-----------------------
 const DELETE_EVENT = "events/deleteEvent";
-export const removeEvent = (event) => ({
+export const removeEvent = (eventId) => ({
   type: DELETE_EVENT,
-  event,
+  eventId,
 });
 export const deleteEvent = (data) => async (dispatch) => {
-  const res = await csrfFetch(`/api/events/${data.id}`, {
-    method: "delete",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
+  console.log("hereeeeeeeeeeeeeeeeeeeee you bitch", data.eventId);
+  const res = await csrfFetch(`/api/events/${data}`, {
+    method: "DELETE",
   });
-  const event = await res.json();
 
-  dispatch(addEvent(event));
+  const { eventId } = await res.json();
+
+  dispatch(removeEvent(eventId));
+  console.log(eventId);
 };
 //---------------------------------------------reducer----------------------------
 
@@ -82,7 +84,7 @@ const eventReducer = (state = {}, action) => {
       return newState;
     }
     case DELETE_EVENT: {
-      delete newState[action.deletedEvent.id];
+      delete newState[action.eventId];
       return newState;
     }
     default:

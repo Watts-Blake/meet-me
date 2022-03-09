@@ -68,21 +68,22 @@ router
   .delete(
     //delete
     requireAuth,
-    asyncHandler(async (req, res, next) => {
+    asyncHandler(async (req, res) => {
       const eventId = req.params.id * 1;
+      console.log("hereeeeeeeeeeeeeeeeeeeeeeeeeeee", eventId);
       const event = await Event.findByPk(eventId);
 
-      if (req.session.auth.userId !== event.hostId) {
-        const err = new Error("You are not authorized");
-        return next(err);
-      }
-      if (event) {
-        await event.destroy();
-        return res.status(404).json();
-      } else {
-        const err = new Error("Event Does Not Exist!");
-        return next(err);
-      }
+      // if (req.session.auth.userId !== event.hostId) {
+      //   const err = new Error("You are not authorized");
+      //   return next(err);
+      // }
+
+      await event.destroy();
+      return res.json({ eventId });
+      // } else {
+      //   const err = new Error("Event Does Not Exist!");
+      //   return next(err);
+      // }
     })
   );
 //---------------------------------------------rsvp's
