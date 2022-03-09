@@ -38,7 +38,7 @@ function LoginForm() {
             <li key={idx}>{error}</li>
           ))}
         </ul>
-        <label className="container">
+        <label>
           Username or Email
           <input
             className="card"
