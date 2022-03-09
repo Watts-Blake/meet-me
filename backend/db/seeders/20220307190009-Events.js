@@ -10,7 +10,7 @@ module.exports = {
           venueId: 23,
           typeId: 17,
           name: "Re-engineered intangible system engine",
-          date: "Wed Jan 04 2023",
+          date: "Wed Jan 04 2023 04:16:22 GMT-0700 (Pacific Daylight Time)'",
           capacity: 500,
         },
         {

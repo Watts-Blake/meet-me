@@ -5,6 +5,7 @@ import EventForm from "../EventForm";
 import ProfileButton from "./ProfileButton";
 import LoginFormModal from "../LoginFormModal";
 import SearchBar from "./SearchBar";
+import CreateModal from "../EventForm/FormModal";
 import "./Navigation.css";
 
 function Navigation({ isLoaded }) {
@@ -14,11 +15,7 @@ function Navigation({ isLoaded }) {
   let createLinks;
   if (sessionUser) {
     sessionLinks = <ProfileButton user={sessionUser} />;
-    createLinks = (
-      <NavLink exact to="/events/add">
-        <button className="card">Create an Event</button>
-      </NavLink>
-    );
+    createLinks = <CreateModal></CreateModal>;
   } else {
     sessionLinks = (
       <div>

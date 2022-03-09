@@ -13,80 +13,78 @@ export const getEvents = () => async (dispatch) => {
 //--------------------------------------------add events-----------------------
 
 const ADD_EVENT = "events/addEvent";
-export const addEvent = (newEvent) => ({
+export const addEvent = (event) => ({
   type: ADD_EVENT,
-  newEvent,
+  event,
 });
 
 export const postEvent = (data) => async (dispatch) => {
   const res = await csrfFetch("/api/events", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
-  const newEvent = await res.json();
+  const event = await res.json();
 
-  dispatch(addEvent(newEvent));
+  dispatch(addEvent(event));
 };
 //--------------------------------------------update events-----------------------
 const UPDATE_EVENT = "events/updateEvent";
-export const updateEvent = (updatedEvent) => ({
+export const updateEvent = (event) => ({
   type: UPDATE_EVENT,
-  updatedEvent,
+  event,
 });
 export const putEvent = (data) => async (dispatch) => {
-  const res = await csrfFetch(`/api/events/${data.id}`, {
+  const res = await csrfFetch(`/api/events/${data.eventId}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
   const updatedEvent = await res.json();
+  console.log("babessssssssssssssssssssssss", updatedEvent);
 
-  dispatch(addEvent(updatedEvent));
+  dispatch(updateEvent(updatedEvent));
 };
 
 //--------------------------------------------delete events-----------------------
 const DELETE_EVENT = "events/deleteEvent";
-export const removeEvent = (deletedEvent) => ({
+export const removeEvent = (eventId) => ({
   type: DELETE_EVENT,
-  deletedEvent,
+  eventId,
 });
 export const deleteEvent = (data) => async (dispatch) => {
-  const res = await csrfFetch(`/api/events/${data.id}`, {
-    method: "delete",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
+  console.log("hereeeeeeeeeeeeeeeeeeeee you bitch", data.eventId);
+  const res = await csrfFetch(`/api/events/${data}`, {
+    method: "DELETE",
   });
-  const deletedEvent = await res.json();
 
-  dispatch(addEvent(deletedEvent));
+  const { eventId } = await res.json();
+
+  dispatch(removeEvent(eventId));
+  console.log(eventId);
 };
 //---------------------------------------------reducer----------------------------
-const initialState = { entries: {}, isLoading: true };
 
-const eventReducer = (state = initialState, action) => {
+const eventReducer = (state = {}, action) => {
   let newState = { ...state };
-  let newEntries = { ...state.entries };
 
   switch (action.type) {
     case LOAD_EVENTS: {
-      action.events.forEach((event) => (newEntries[event.id] = event));
-      newState.entries = newEntries;
+      action.events.forEach((event) => {
+        return (newState[event.id] = event);
+      });
       return newState;
     }
     case ADD_EVENT: {
-      newEntries[action.newEvent.id] = action.event;
-      newState.entries = newEntries;
+      newState[action.event.id] = { ...action.event };
+
       return newState;
     }
     case UPDATE_EVENT: {
-      newEntries[action.updatedEvent.id] = action.event;
-      newState.entries = newEntries;
+      newState[action.event.id] = action.event;
       return newState;
     }
     case DELETE_EVENT: {
-      delete newEntries[action.deletedEvent.id];
-      newState.entries = newEntries;
+      delete newState[action.eventId];
       return newState;
     }
     default:

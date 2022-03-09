@@ -12,7 +12,7 @@ const imgPicker = (i, imgs) => {
 const fakeDate = () => {
   const date = faker.date.future();
 
-  return date.toDateString();
+  return date.toString();
 };
 
 function round(num) {

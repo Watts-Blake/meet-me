@@ -2,72 +2,127 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import { postEvent } from "../../store/eventReducer";
+import { putEvent } from "../../store/eventReducer";
 import { getVenues } from "../../store/venues";
 import { getTypes } from "../../store/types";
+import DeleteModal from "../DeleteModal/DeleteModal";
 
-const EventForm = ({ showModal, setShowModal }) => {
+const hoursTransform = (hours) => {
+  if (hours <= 12) {
+    return `${hours}:00 AM`;
+  } else if (hours === 0) {
+    return `1:00 AM`;
+  } else {
+    return `${hours - 12}:00 PM`;
+  }
+};
+
+const EditEventForm = ({
+  singleEvent,
+  showModal1,
+  setShowModal1,
+  showModal2,
+  setShowModal2,
+}) => {
   const sessionUser = useSelector((state) => state.session.user);
-  const [value, onChange] = useState(new Date());
-  const dispatch = useDispatch();
-  const venuesObj = useSelector((state) => state.venue.entries);
-  const venues = Object.values(venuesObj);
-  const typesObj = useSelector((state) => state.type.entries);
-  const types = Object.values(typesObj);
+  const eventId = singleEvent.id;
+  const hostId = sessionUser.id;
 
+  const eventsObj = useSelector((state) => state.event);
+
+  // console.log("events", eventId);
+  const events = Object.values(eventsObj);
+  const event = events.find((eve) => eve.id === eventId);
+  const [value, onChange] = useState(new Date(event.date));
+  // console.log("event", event);
+
+  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getVenues());
+  }, [dispatch]);
+  useEffect(() => {
     dispatch(getTypes());
   }, [dispatch]);
-  const [venue, setVenue] = useState("");
-  const [type, setType] = useState("");
-  const [name, setName] = useState("");
-  const [time, setTime] = useState("");
-  const [capacity, setCapacity] = useState(5);
+  const venuesObj = useSelector((state) => state.venue.entries);
+  const allVenues = Object.values(venuesObj);
+
+  const eventVenue = allVenues.find((ven) => ven.id === event.venueId);
+  // console.log("singleEvent", singleEvent);
+  // console.log("eventVenue", eventVenue);
+  const typesObj = useSelector((state) => state.type.entries);
+  const allTypes = Object.values(typesObj);
+  const eventType = allTypes.find((typ) => typ.id === event.typeId);
+
+  const [venue, setVenue] = useState(eventVenue.name);
+  // console.log("venuuuuuuuuuuuuuuuuuuuuuuuuuu", venue);
+  const [venueId, setVenueId] = useState(event.venueId);
+  const [type, setType] = useState(eventType.name);
+  const [typeId, setTypeId] = useState(event.typeId);
+  const [name, setName] = useState(event.name);
+  const [hours, setHours] = useState(new Date(event.date).getHours());
+  const [time, setTime] = useState(hoursTransform(hours));
+  const [date, setDate] = useState(event.date);
+  const [capacity, setCapacity] = useState(singleEvent.capacity);
+
+  useEffect(() => {
+    const newVenue = allVenues.find((ven) => ven.name === venue);
+    setVenueId(newVenue.id);
+    const newType = allTypes.find((typ) => typ.name === type);
+    setTypeId(newType.id);
+    const realDate = `${value.toDateString()} ${time}`;
+    setDate(realDate);
+    setHours(new Date(event.date).getHours());
+    setTime(hoursTransform(hours));
+    console.log(realDate);
+  }, [venue, type, allVenues, allTypes, time, value, hours, event.date]);
 
   const reset = () => {
-    setVenue("");
-    setType("");
+    setVenueId("");
+    setTypeId("");
     setName("");
     setTime(new Date().toString());
     setCapacity(5);
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    const date = `${value.toDateString()} ${time}`;
-    const realVenue = venues.find((ven) => ven.name === venue);
-    console.log(date);
-    const realType = types.find((typ) => typ.name === type);
-
-    const newEvent = {
-      hostId: sessionUser.id,
-      venueId: realVenue.id,
-      typeId: realType.id,
+    // setVenue(allVenues.find((ven) => ven.name === venue.name));
+    // console.log("submit venue", venue);
+    // setVenueId(venue.id);
+    // setType(allTypes.find((typ) => typ.name === type.name));
+    // setTypeId(type);
+    // const realDate = `${value.toDateString()} ${time}`;
+    // setDate(realDate);
+    // console.log("dateeeeeeeeeeeeeeeeeeeeeeeee", date);
+    const updatedEvent = {
+      eventId,
+      hostId,
+      venueId,
+      typeId,
       name,
       date: date.toString(),
       capacity,
     };
 
-    dispatch(postEvent(newEvent));
-    setShowModal(false);
+    dispatch(putEvent(updatedEvent));
+    setShowModal2(false);
     // reset();
   };
 
   return (
     <div className="container">
-      <h1>Create Event</h1>
+      <h1>Edit Event</h1>
       <form onSubmit={handleSubmit}>
         <div></div>
         <select className="card" onChange={(e) => setVenue(e.target.value)}>
-          <option>Pick Your Venue!</option>
-          {venues.map((venue) => (
+          <option>{eventVenue.name}</option>
+          {allVenues.map((venue) => (
             <option key={venue.id}>{venue.name}</option>
           ))}
         </select>
         <select className="card" onChange={(e) => setType(e.target.value)}>
-          <option>Pick a Category!</option>
-          {types.map((type) => (
+          <option>{eventType.name}</option>
+          {allTypes.map((type) => (
             <option key={type.id}>{type.name}</option>
           ))}
         </select>
@@ -76,11 +131,11 @@ const EventForm = ({ showModal, setShowModal }) => {
           type="text"
           onChange={(e) => setName(e.target.value)}
           value={name}
-          placeholder="Event Name"
+          placeholder={singleEvent.name}
           name="title"
         />
         <select className="card" onChange={(e) => setCapacity(e.target.value)}>
-          <option>Capacity</option>
+          <option>{singleEvent.capacity}</option>
           <option>5</option>
           <option>10</option>
           <option>15</option>
@@ -124,6 +179,7 @@ const EventForm = ({ showModal, setShowModal }) => {
         <div className="card">
           <div>
             <select className="card" onChange={(e) => setTime(e.target.value)}>
+              <option>{time}</option>
               <option>12:00 AM</option>
               <option>1:00 AM</option>
               <option>2:00 AM</option>
@@ -152,10 +208,23 @@ const EventForm = ({ showModal, setShowModal }) => {
           </div>
         </div>
 
-        <button type="submit">Submit</button>
+        <button className={"card"} type="submit">
+          Confirm Changes
+        </button>
       </form>
+      <button className="card" onClick={() => setShowModal2(false)}>
+        Cancel
+      </button>
+      <DeleteModal
+        showModal1={showModal1}
+        setShowModal1={setShowModal1}
+        showModal2={showModal2}
+        setShowModal2={setShowModal2}
+        className={"card"}
+        eventId={singleEvent.id}
+      />
     </div>
   );
 };
 
-export default EventForm;
+export default EditEventForm;

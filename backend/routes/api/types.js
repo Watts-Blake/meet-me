@@ -1,4 +1,4 @@
-const { Venue } = require("../../db/models");
+const { Type } = require("../../db/models");
 
 //------------------------------------------------------middle-ware------------------------------------------
 const express = require("express");
@@ -8,8 +8,8 @@ const router = express.Router();
 
 router.route("/").get(
   asyncHandler(async (req, res) => {
-    const venues = await Venue.findAll();
-    return res.json(venues);
+    const types = await Type.findAll();
+    return res.json(types);
   })
 );
 
