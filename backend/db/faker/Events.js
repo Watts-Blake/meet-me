@@ -12,7 +12,7 @@ const imgPicker = (i, imgs) => {
 const fakeDate = () => {
   const date = faker.date.future();
 
-  return date.toString();
+  return date;
 };
 
 function round(num) {
@@ -37,7 +37,7 @@ const seedEvents = (num) => {
       venueId: random(1, 40),
       typeId: random(1, 30),
       name: faker.company.catchPhrase(),
-      date: fakeDate(),
+      date: fakeDate().toDateString(),
       capacity: round(random(1, 1000)),
     };
     console.log(user, ",");
