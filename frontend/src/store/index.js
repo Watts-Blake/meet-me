@@ -5,6 +5,7 @@ import sessionReducer from "./session";
 import eventReducer from "./eventReducer";
 import venueReducer from "./venues";
 import typeReducer from "./types";
+import rsvpReducer from "./rsvp";
 
 const rootReducer = combineReducers({
   // add reducer functions here
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   event: eventReducer,
   venue: venueReducer,
   type: typeReducer,
+  rsvp: rsvpReducer,
 });
 
 let enhancer;

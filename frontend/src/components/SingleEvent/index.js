@@ -4,29 +4,66 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import EditModal from "../EditForm/EditModal";
 import LoginFormModal from "../LoginFormModal";
-const SingleEvent = ({ id, showModal1, setShowModal1 }) => {
+import { getRsvps, postRsvp, deleteRsvp } from "../../store/rsvp";
+const SingleEvent = ({
+  id,
+  showModal1,
+  setShowModal1,
+  showEventListModal,
+  setShowEventListModal,
+}) => {
   const dispatch = useDispatch();
-  const [currentRsvp, setCurrentRsvp] = useState();
-  const currentUser = useSelector((state) => state.session.user);
   const eventsObj = useSelector((state) => state.event);
   const events = Object.values(eventsObj);
-  // useEffect(() => {
-  //   dispatch(getEvents());
-  // }, [dispatch]);
-  const singleEvent = events.find((event) => event.id === +id);
+
+  const [currentRsvp, setCurrentRsvp] = useState();
+  const [singleEvent, setSingleEvent] = useState(
+    events.find((event) => event.id === +id)
+  );
+  const currentUser = useSelector((state) => state.session.user);
+
+  useEffect(() => {
+    dispatch(getRsvps(singleEvent.id));
+  }, [dispatch, singleEvent.id, currentUser]);
+
+  const rsvpObj = useSelector((state) => state.rsvp);
+  const rsvpList = Object.values(rsvpObj);
+
   let eventOwner = false;
   if (currentUser && currentUser.id === singleEvent.hostId) {
     eventOwner = true;
   }
   useEffect(() => {
-    singleEvent.Rsvps.forEach((user) => {
+    const event = events.find((event) => event.id === +id);
+    setSingleEvent(event);
+    rsvpList.forEach((user) => {
       if (currentUser && currentUser.id === user.userId) {
         setCurrentRsvp(true);
       } else {
         setCurrentRsvp(false);
       }
     });
-  }, []);
+  }, [rsvpList, currentUser, singleEvent, events, id, currentRsvp]);
+
+  const handleRsvp = (e) => {
+    e.preventDefault();
+    const rsvp = {
+      eventId: singleEvent.id,
+      userId: currentUser.id,
+    };
+    dispatch(postRsvp(rsvp));
+    setCurrentRsvp(true);
+  };
+
+  const handleUnRsvp = (e) => {
+    e.preventDefault();
+    const rsvp = {
+      eventId: singleEvent.id,
+      userId: currentUser.id,
+    };
+    dispatch(deleteRsvp(rsvp));
+    setCurrentRsvp(false);
+  };
 
   return (
     <div className="singleArticle">
@@ -40,15 +77,15 @@ const SingleEvent = ({ id, showModal1, setShowModal1 }) => {
       <div>
         <p>{new Date(singleEvent.date).toDateString()}</p>
         {currentRsvp && (
-          <button className="card" onClick={setCurrentRsvp(false)}>
+          <button className="card" onClick={handleUnRsvp}>
+            UnRsvp
+          </button>
+        )}
+        {!currentRsvp && (
+          <button className="card" onClick={handleRsvp}>
             Rsvp
           </button>
         )}
-        {/* {!currentRsvp && (
-          <button className="card" onClick={setCurrentRsvp(true)}>
-            Rsvp
-          </button>
-        )} */}
       </div>
 
       <p>{singleEvent.capacity}</p>
@@ -56,17 +93,17 @@ const SingleEvent = ({ id, showModal1, setShowModal1 }) => {
       <p>{`${singleEvent.Venue.name} ${singleEvent.Venue.address}`}</p>
       <div>
         <h3>Rsvp's</h3>
-        <p>{singleEvent.Rsvps.length}</p>
+        <p>{rsvpList.length}</p>
         <ul>
           {currentUser &&
-            singleEvent.Rsvps.map((user) => (
-              <li key={user.id}>{user.User.username}</li>
-            ))}
+            rsvpList.map((user) => <li key={user.id}>{user.User.username}</li>)}
         </ul>
         {!currentUser && (
           <>
-            <p>must be signed into to see rsvp's</p>
-            <LoginFormModal></LoginFormModal>
+            <LoginFormModal
+              name={`Rsvp List`}
+              title={`You must be Logged in to see the RSVP List`}
+            ></LoginFormModal>
           </>
         )}
       </div>

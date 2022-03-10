@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import SignupFormPage from "../SignUpFormPage";
 import { Route } from "react-router-dom";
 
-function LoginForm() {
+function LoginForm({ title }) {
   const dispatch = useDispatch();
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
@@ -31,7 +31,7 @@ function LoginForm() {
 
   return (
     <div className="container">
-      <h2>Login</h2>
+      <h2>{title}</h2>
       <form className="container" onSubmit={handleSubmit}>
         <ul>
           {errors.map((error, idx) => (

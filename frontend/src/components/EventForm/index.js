@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
+
 import { postEvent } from "../../store/eventReducer";
 import { getVenues } from "../../store/venues";
 import { getTypes } from "../../store/types";

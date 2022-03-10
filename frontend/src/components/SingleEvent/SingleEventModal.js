@@ -1,9 +1,16 @@
 import { useState } from "react";
 import { Modal } from "../../context/Modal";
 import SingleEvent from ".";
-
-const SingleEventModal = ({ id, name }) => {
+import { getRsvps } from "../../store/rsvp";
+import { useDispatch } from "react-redux";
+const SingleEventModal = ({
+  id,
+  name,
+  showEventListModal,
+  setShowEventListModal,
+}) => {
   const [showModal1, setShowModal1] = useState(false);
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -15,6 +22,8 @@ const SingleEventModal = ({ id, name }) => {
           <SingleEvent
             showModal1={showModal1}
             setShowModal1={setShowModal1}
+            setShowEventListModal={setShowEventListModal}
+            showEventListModal={setShowEventListModal}
             id={id}
           ></SingleEvent>
         </Modal>

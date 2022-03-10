@@ -30,7 +30,6 @@ function random(min, max) {
 
 const seedEvents = (num) => {
   let i = 0;
-
   while (i < num) {
     const user = {
       hostId: random(4, 50),

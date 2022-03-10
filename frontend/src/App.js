@@ -5,6 +5,7 @@ import { Route, Switch } from "react-router-dom";
 import SignUpFormPage from "./components/SignUpFormPage";
 import EventForm from "./components/EventForm";
 import EventList from "./components/EventsList";
+import Splash from "./components/Splash";
 import SingleEvent from "./components/SingleEvent";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
@@ -26,7 +27,7 @@ function App() {
             <SignUpFormPage />
           </Route>
           <Route exact path="/">
-            <EventList></EventList>
+            <Splash></Splash>
           </Route>
           <Route path="/events/add">
             <EventForm></EventForm>

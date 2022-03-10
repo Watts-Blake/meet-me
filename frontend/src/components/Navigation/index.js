@@ -6,6 +6,7 @@ import ProfileButton from "./ProfileButton";
 import LoginFormModal from "../LoginFormModal";
 import SearchBar from "./SearchBar";
 import CreateModal from "../EventForm/FormModal";
+import EventListModal from "../EventsList/EventListModal";
 import "./Navigation.css";
 
 function Navigation({ isLoaded }) {
@@ -15,11 +16,16 @@ function Navigation({ isLoaded }) {
   let createLinks;
   if (sessionUser) {
     sessionLinks = <ProfileButton user={sessionUser} />;
-    createLinks = <CreateModal></CreateModal>;
+    createLinks = (
+      <>
+        <CreateModal></CreateModal>
+        <EventListModal />
+      </>
+    );
   } else {
     sessionLinks = (
       <div>
-        <LoginFormModal />
+        <LoginFormModal name={`Login || Signup`} title={`Login || Signup`} />
 
         {/* <NavLink
           exact
@@ -33,7 +39,15 @@ function Navigation({ isLoaded }) {
 
     createLinks = (
       <div>
-        {!sessionUser && <button className="card">Create an Event</button>}
+        {!sessionUser && (
+          <>
+            <LoginFormModal
+              name={`Create an Event`}
+              title={`You Must Be Signed In To Create an Event`}
+            />
+            <EventListModal />
+          </>
+        )}
       </div>
     );
   }
