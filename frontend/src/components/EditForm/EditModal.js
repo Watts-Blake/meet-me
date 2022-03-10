@@ -1,21 +1,10 @@
 import { useState } from "react";
 import { Modal } from "../../context/Modal";
-import { getVenues } from "../../store/venues";
-import { getTypes } from "../../store/types";
-import { useSelector } from "react-redux";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+
 import EditEventForm from ".";
 
 const EditModal = ({ singleEvent, setShowModal1, showModal1 }) => {
   const [showModal2, setShowModal2] = useState(false);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getVenues());
-  }, [dispatch]);
-  useEffect(() => {
-    dispatch(getTypes());
-  }, [dispatch]);
 
   return (
     <>

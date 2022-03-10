@@ -17,23 +17,15 @@ function Navigation({ isLoaded }) {
   if (sessionUser) {
     sessionLinks = <ProfileButton user={sessionUser} />;
     createLinks = (
-      <>
+      <div className="container gap">
         <CreateModal></CreateModal>
         <EventListModal />
-      </>
+      </div>
     );
   } else {
     sessionLinks = (
       <div>
         <LoginFormModal name={`Login || Signup`} title={`Login || Signup`} />
-
-        {/* <NavLink
-          exact
-          to="/signup"
-          style={{ textDecoration: "none", color: "red" }}
-        >
-          <button className="card">SignUp</button>
-        </NavLink> */}
       </div>
     );
 
@@ -53,7 +45,7 @@ function Navigation({ isLoaded }) {
   }
 
   return (
-    <div className="container nav" id="nav">
+    <div className="nav container row sp__between" id="nav">
       <div className="container">
         <div className="container">
           <NavLink
@@ -68,12 +60,12 @@ function Navigation({ isLoaded }) {
             Up Squad
           </NavLink>
         </div>
-        <div className="container">
+        <div className="">
           <SearchBar />
         </div>
       </div>
-      <div className="container">{isLoaded && createLinks}</div>
-      <div className="container">{isLoaded && sessionLinks}</div>
+      <div className="">{isLoaded && createLinks}</div>
+      <div className="">{isLoaded && sessionLinks}</div>
     </div>
   );
 }

@@ -13,42 +13,28 @@ const SingleEvent = ({
   setShowEventListModal,
 }) => {
   const dispatch = useDispatch();
-  const eventsObj = useSelector((state) => state.event);
-  const events = Object.values(eventsObj);
-
   const [currentRsvp, setCurrentRsvp] = useState();
-  const [singleEvent, setSingleEvent] = useState(
-    events.find((event) => event.id === +id)
-  );
+
+  const event = useSelector((state) => state.currentEvent);
+
   const currentUser = useSelector((state) => state.session.user);
 
   useEffect(() => {
-    dispatch(getRsvps(singleEvent.id));
-  }, [dispatch, singleEvent.id, currentUser]);
+    dispatch(getRsvps(event.id));
+  }, [dispatch, event, currentUser]);
 
   const rsvpObj = useSelector((state) => state.rsvp);
   const rsvpList = Object.values(rsvpObj);
 
   let eventOwner = false;
-  if (currentUser && currentUser.id === singleEvent.hostId) {
+  if (currentUser && currentUser.id === event.hostId) {
     eventOwner = true;
   }
-  useEffect(() => {
-    const event = events.find((event) => event.id === +id);
-    setSingleEvent(event);
-    rsvpList.forEach((user) => {
-      if (currentUser && currentUser.id === user.userId) {
-        setCurrentRsvp(true);
-      } else {
-        setCurrentRsvp(false);
-      }
-    });
-  }, [rsvpList, currentUser, singleEvent, events, id, currentRsvp]);
 
   const handleRsvp = (e) => {
     e.preventDefault();
     const rsvp = {
-      eventId: singleEvent.id,
+      eventId: event.id,
       userId: currentUser.id,
     };
     dispatch(postRsvp(rsvp));
@@ -58,7 +44,7 @@ const SingleEvent = ({
   const handleUnRsvp = (e) => {
     e.preventDefault();
     const rsvp = {
-      eventId: singleEvent.id,
+      eventId: event.id,
       userId: currentUser.id,
     };
     dispatch(deleteRsvp(rsvp));
@@ -68,14 +54,14 @@ const SingleEvent = ({
   return (
     <div className="singleArticle">
       <div>
-        <h1>{singleEvent.name}</h1>
-        <h2>{`hosted by ${singleEvent.User.username}`}</h2>
+        <h1>{event.name}</h1>
+        <h2>{`hosted by ${event.User.username}`}</h2>
       </div>
       <div>
-        <p>{singleEvent.Type.name}</p>
+        <p>{event.Type.name}</p>
       </div>
       <div>
-        <p>{new Date(singleEvent.date).toDateString()}</p>
+        <p>{new Date(event.date).toDateString()}</p>
         {currentRsvp && (
           <button className="card" onClick={handleUnRsvp}>
             UnRsvp
@@ -87,10 +73,9 @@ const SingleEvent = ({
           </button>
         )}
       </div>
-
-      <p>{singleEvent.capacity}</p>
+      <p>{event.capacity}</p>
       <p>at</p>
-      <p>{`${singleEvent.Venue.name} ${singleEvent.Venue.address}`}</p>
+      <p>{`${event.Venue.name} ${event.Venue.address}`}</p>
       <div>
         <h3>Rsvp's</h3>
         <p>{rsvpList.length}</p>
@@ -113,7 +98,8 @@ const SingleEvent = ({
             <EditModal
               showModal1={showModal1}
               setShowModal1={setShowModal1}
-              singleEvent={singleEvent}
+              singleEvent={event}
+              event={event}
             />
           </div>
         )}

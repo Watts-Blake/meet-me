@@ -31,45 +31,47 @@ function LoginForm({ title }) {
 
   return (
     <div className="container">
-      <h2>{title}</h2>
-      <form className="container" onSubmit={handleSubmit}>
-        <ul>
-          {errors.map((error, idx) => (
-            <li key={idx}>{error}</li>
-          ))}
-        </ul>
-        <label>
-          Username or Email
-          <input
-            className="card"
-            type="text"
-            value={credential}
-            onChange={(e) => setCredential(e.target.value)}
-            required
-          />
-        </label>
-        <label className="container">
-          Password
-          <input
-            className="card"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </label>
-        <div className="container">
-          <button className="card" type="submit">
-            Log In
-          </button>
-          <button className="card" onClick={handleClick}>
-            Demo User
-          </button>
-        </div>
-      </form>
-      <div className="container">
+      <div className="container column">
+        <h2>{title}</h2>
+        <form className="container column" onSubmit={handleSubmit}>
+          <ul>
+            {errors.map((error, idx) => (
+              <li key={idx}>{error}</li>
+            ))}
+          </ul>
+          <label className="container column">
+            Username or Email
+            <input
+              className="card"
+              type="text"
+              value={credential}
+              onChange={(e) => setCredential(e.target.value)}
+              required
+            />
+          </label>
+          <label className="container column">
+            Password
+            <input
+              className="card"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </label>
+          <div className="container row gap">
+            <button className="card" type="submit">
+              Log In
+            </button>
+            <button className="card" onClick={handleClick}>
+              Demo User
+            </button>
+          </div>
+        </form>
+      </div>
+      <div className="container column">
         <h2>Sign Up</h2>
-        <SignupFormPage className="container">Sign Up</SignupFormPage>
+        <SignupFormPage className="container column">Sign Up</SignupFormPage>
       </div>
     </div>
   );

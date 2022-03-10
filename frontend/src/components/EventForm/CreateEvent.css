@@ -1,0 +1,8 @@
+#createForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 272px;
+  padding: 0.5rem;
+  margin: 1rem 0;
+}

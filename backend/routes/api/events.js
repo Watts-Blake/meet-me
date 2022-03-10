@@ -60,7 +60,14 @@ router
     //get specific event
     asyncHandler(async (req, res) => {
       const eventId = req.params.id * 1;
-      const event = await Event.findByPk(eventId);
+      const event = await Event.findByPk(eventId, {
+        include: [
+          { model: User },
+          { model: Type },
+          { model: Venue },
+          { model: Rsvp, include: [{ model: User }] },
+        ],
+      });
       return res.json(event);
     })
   )

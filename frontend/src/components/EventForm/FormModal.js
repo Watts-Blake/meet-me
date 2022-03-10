@@ -7,12 +7,13 @@ const CreateModal = () => {
 
   return (
     <>
-      <button className="card" onClick={() => setShowModal(true)}>
+      <button className="card collapse" onClick={() => setShowModal(true)}>
         Create an Event
       </button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
           <EventForm
+            className="container modal"
             showModal={showModal}
             setShowModal={setShowModal}
           ></EventForm>

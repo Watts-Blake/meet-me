@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Calendar from "react-calendar";
 import { putEvent } from "../../store/eventReducer";
-import { getVenues } from "../../store/venues";
-import { getTypes } from "../../store/types";
+
 import DeleteModal from "../DeleteModal/DeleteModal";
+import { getCurrentEvent } from "../../store/setCurrentEvent";
 
 const hoursTransform = (hours) => {
   if (hours <= 12) {
@@ -24,6 +24,9 @@ const EditEventForm = ({
   setShowModal2,
 }) => {
   const sessionUser = useSelector((state) => state.session.user);
+  //should of refactored to this earlier
+  const vent = useSelector((state) => state.currentEvent);
+  //should of refactored to this earlier
   const eventId = singleEvent.id;
   const hostId = sessionUser.id;
 
@@ -36,32 +39,25 @@ const EditEventForm = ({
   // console.log("event", event);
 
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getVenues());
-  }, [dispatch]);
-  useEffect(() => {
-    dispatch(getTypes());
-  }, [dispatch]);
+
   const venuesObj = useSelector((state) => state.venue.entries);
   const allVenues = Object.values(venuesObj);
 
   const eventVenue = allVenues.find((ven) => ven.id === event.venueId);
-  // console.log("singleEvent", singleEvent);
-  // console.log("eventVenue", eventVenue);
+
   const typesObj = useSelector((state) => state.type.entries);
   const allTypes = Object.values(typesObj);
-  const eventType = allTypes.find((typ) => typ.id === event.typeId);
 
-  const [venue, setVenue] = useState(eventVenue.name);
+  const [venue, setVenue] = useState(vent.Venue.name);
   // console.log("venuuuuuuuuuuuuuuuuuuuuuuuuuu", venue);
-  const [venueId, setVenueId] = useState(event.venueId);
-  const [type, setType] = useState(eventType.name);
-  const [typeId, setTypeId] = useState(event.typeId);
-  const [name, setName] = useState(event.name);
-  const [hours, setHours] = useState(new Date(event.date).getHours());
+  const [venueId, setVenueId] = useState(vent.Venue.id);
+  const [type, setType] = useState(vent.Type.name);
+  const [typeId, setTypeId] = useState(vent.Type.Id);
+  const [name, setName] = useState(vent.name);
+  const [hours, setHours] = useState(new Date(vent.date).getHours());
   const [time, setTime] = useState(hoursTransform(hours));
-  const [date, setDate] = useState(event.date);
-  const [capacity, setCapacity] = useState(singleEvent.capacity);
+  const [date, setDate] = useState(vent.date);
+  const [capacity, setCapacity] = useState(vent.capacity);
 
   useEffect(() => {
     const newVenue = allVenues.find((ven) => ven.name === venue);
@@ -104,6 +100,7 @@ const EditEventForm = ({
     };
 
     dispatch(putEvent(updatedEvent));
+    dispatch(getCurrentEvent(eventId));
     setShowModal2(false);
     // reset();
   };
@@ -114,13 +111,13 @@ const EditEventForm = ({
       <form onSubmit={handleSubmit}>
         <div></div>
         <select className="card" onChange={(e) => setVenue(e.target.value)}>
-          <option>{eventVenue.name}</option>
+          <option>{vent.Venue.name}</option>
           {allVenues.map((venue) => (
             <option key={venue.id}>{venue.name}</option>
           ))}
         </select>
         <select className="card" onChange={(e) => setType(e.target.value)}>
-          <option>{eventType.name}</option>
+          <option>{vent.Type.name}</option>
           {allTypes.map((type) => (
             <option key={type.id}>{type.name}</option>
           ))}

@@ -4,6 +4,7 @@ import { Route, Switch } from "react-router-dom";
 import EventListModal from "../EventsList/EventListModal";
 import EventDetails from "../EventDetails";
 import CreateModal from "../EventForm/FormModal";
+import "./eventsOnDay.css";
 
 const EventOnDay = ({ value, onChange }) => {
   const [currentDayEvents, setCurrentDayEvents] = useState(null);
@@ -24,19 +25,19 @@ const EventOnDay = ({ value, onChange }) => {
 
   if (!currentDayEvents) {
     return (
-      <>
-        <h1>{new Date(value).toDateString()}</h1>
-        <h2>No Events Scheduled</h2>
+      <div className="container column border">
+        <h2>{new Date(value).toDateString()}</h2>
+        <h3>No Events Scheduled</h3>
         <CreateModal name={"Create an Event on this day"} />
         <EventListModal></EventListModal>
-      </>
+      </div>
     );
   } else {
     return (
-      <div>
+      <div className="container column border">
         <h1>{new Date(value).toDateString()}</h1>
 
-        <ul>
+        <ul className="container column">
           {currentDayEvents &&
             currentDayEvents.map((event) => (
               <EventDetails

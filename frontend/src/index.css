@@ -12,6 +12,10 @@ body {
   margin: 0;
   background-color: #3f3f3f;
 }
+h2 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
 #nav {
   max-height: 89px;
   margin-top: 0;
@@ -21,20 +25,19 @@ body {
 }
 
 .card {
-  border-radius: 12px;
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
 }
 /* ----------------------------------------------------calendar styles-------------------------- */
 .react-calendar__tile {
-  border-radius: 12px;
+  border-radius: 5px;
   /* box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25); */
 }
 .react-calendar__navigation__label {
-  border-radius: 12px;
+  border-radius: 5px;
   /* box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25); */
 }
 .react-calendar__navigation__arrow {
-  border-radius: 12px;
+  border-radius: 5px;
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.05);
 }
 .react-calendar {
@@ -48,14 +51,14 @@ body {
   display: flex;
   align-items: center;
   /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25); */
-  padding: 0.5rem;
-  margin: 1rem 0;
+  margin: 0.5rem 0.25rem;
   /* border-radius: 12px; */
   /* background-color: #4b4b4b; */
 }
 .item__container {
   padding: 1rem;
-  background-color: rgb(31, 31, 31);
+  display: flex;
+  /* background-color: rgb(31, 31, 31); */
   margin: 2rem auto;
   width: 50rem;
   max-width: 95%;
@@ -63,13 +66,137 @@ body {
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25); */
 }
 
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-size: 24px;
+}
+
 .sp__around {
   justify-content: space-around;
+  align-content: space-around;
 }
 
 .sp__between {
   justify-content: space-between;
+  align-content: space-between;
 }
+.gap {
+  gap: 10px;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.row {
+  flex-direction: row;
+}
+
+.border {
+  padding-top: 5px;
+  padding: 10px;
+
+  border-width: 1px;
+  border-style: double;
+  border-color: #bf4a49;
+  border-radius: 5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+button {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+.button {
+  color: inherit;
+  border: 2px solid #bf4a49;
+  border-radius: 5px;
+  padding: 2.5px 5px;
+  display: inline-block;
+  font-size: 14px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 0 #bf4a49;
+  transition: ease-out 0.8s;
+  background: none;
+}
+
+.collapse:hover {
+  box-shadow: inset 0 0 0 50px #bf4a49;
+}
+
+.event_link {
+  width: 300px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.event_link a {
+  text-decoration: none;
+  border: 2px solid #010100;
+  padding: 15px;
+  color: #000;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+  display: inline-block;
+}
+
+.art {
+  position: relative;
+  /* z-index coz when we put bg to before and after this span text will not be visible */
+  z-index: 3;
+}
+
+.event_link a::before {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: -2px;
+  width: calc(100% + 6px);
+  /*100% plus double the times left values*/
+  height: calc(100% - 10px);
+  background-color: inherit;
+  transition: all 0.5s ease-in-out;
+  transform: scaleY(1);
+}
+
+.event_link a:hover::before {
+  transform: scaleY(0);
+}
+
+.event_link a::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: -5px;
+  width: calc(100% - 10px);
+  /*100% plus double the times left values*/
+  height: calc(100% + 10px);
+  background-color: inherit;
+  transition: all 0.5s ease-in-out;
+  transform: scaleX(1);
+}
+
+.event_link a:hover::after {
+  transform: scaleX(0);
+}
+
+ul {
+  list-style: none;
+}
+
 /* ----------------------------------------------------------extras------------------------- */
 .item h2 {
   /* name */
