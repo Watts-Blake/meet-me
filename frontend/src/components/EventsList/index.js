@@ -6,7 +6,7 @@ import SingleEvent from "../SingleEvent";
 import EventDetails from "../EventDetails";
 import { getEvents } from "../../store/eventReducer";
 
-const EventList = () => {
+const EventList = ({ showEventListModal, setShowEventListModal }) => {
   const dispatch = useDispatch();
 
   const eventsObj = useSelector((state) => state.event);
@@ -31,7 +31,11 @@ const EventList = () => {
 
       <Switch>
         <Route path="/events/:id">
-          <SingleEvent events={events} />
+          <SingleEvent
+            showEventListModal={showEventListModal}
+            setShowEventListModal={setShowEventListModal}
+            events={events}
+          />
         </Route>
       </Switch>
     </div>

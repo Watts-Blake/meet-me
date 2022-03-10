@@ -3,17 +3,17 @@ import { Modal } from "../../context/Modal";
 import { useSelector } from "react-redux";
 import LoginForm from "./LoginForm";
 
-function LoginFormModal() {
+function LoginFormModal({ name, title }) {
   const [showModal, setShowModal] = useState(false);
   const currentUser = useSelector((state) => state.session.user);
   return (
     <>
       <button className="card" onClick={() => setShowModal(true)}>
-        Log In || Sign Up
+        {name}
       </button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
-          <LoginForm />
+          <LoginForm name={name} title={title} />
         </Modal>
       )}
     </>

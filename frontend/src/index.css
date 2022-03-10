@@ -24,15 +24,34 @@ body {
   border-radius: 12px;
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
 }
+/* ----------------------------------------------------calendar styles-------------------------- */
+.react-calendar__tile {
+  border-radius: 12px;
+  /* box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25); */
+}
+.react-calendar__navigation__label {
+  border-radius: 12px;
+  /* box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25); */
+}
+.react-calendar__navigation__arrow {
+  border-radius: 12px;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.05);
+}
+.react-calendar {
+  background-color: #bf4a49;
+}
+.react-calendar__month-view__days__day--weekend {
+  color: #4b4b4b;
+}
+/* ----------------------------------------------------calendar styles-------------------------- */
 .container {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25); */
   padding: 0.5rem;
   margin: 1rem 0;
   /* border-radius: 12px; */
-  background-color: #4b4b4b;
+  /* background-color: #4b4b4b; */
 }
 .item__container {
   padding: 1rem;
@@ -44,6 +63,14 @@ body {
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25); */
 }
 
+.sp__around {
+  justify-content: space-around;
+}
+
+.sp__between {
+  justify-content: space-between;
+}
+/* ----------------------------------------------------------extras------------------------- */
 .item h2 {
   /* name */
   color: #3a3a3a;

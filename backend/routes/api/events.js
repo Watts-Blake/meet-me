@@ -99,7 +99,7 @@ router
   .route("/:id/rsvp")
   .get(
     // get rsvp list
-    requireAuth,
+
     asyncHandler(async (req, res) => {
       const eventId = req.params.id * 1;
       const rsvpList = await Rsvp.findAll({

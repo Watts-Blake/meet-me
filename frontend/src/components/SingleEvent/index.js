@@ -5,7 +5,13 @@ import { useDispatch } from "react-redux";
 import EditModal from "../EditForm/EditModal";
 import LoginFormModal from "../LoginFormModal";
 import { getRsvps, postRsvp, deleteRsvp } from "../../store/rsvp";
-const SingleEvent = ({ id, showModal1, setShowModal1 }) => {
+const SingleEvent = ({
+  id,
+  showModal1,
+  setShowModal1,
+  showEventListModal,
+  setShowEventListModal,
+}) => {
   const dispatch = useDispatch();
   const eventsObj = useSelector((state) => state.event);
   const events = Object.values(eventsObj);
@@ -18,7 +24,7 @@ const SingleEvent = ({ id, showModal1, setShowModal1 }) => {
 
   useEffect(() => {
     dispatch(getRsvps(singleEvent.id));
-  }, [dispatch, singleEvent.id]);
+  }, [dispatch, singleEvent.id, currentUser]);
 
   const rsvpObj = useSelector((state) => state.rsvp);
   const rsvpList = Object.values(rsvpObj);
@@ -37,7 +43,7 @@ const SingleEvent = ({ id, showModal1, setShowModal1 }) => {
         setCurrentRsvp(false);
       }
     });
-  }, [rsvpList, currentUser, singleEvent, events, id]);
+  }, [rsvpList, currentUser, singleEvent, events, id, currentRsvp]);
 
   const handleRsvp = (e) => {
     e.preventDefault();
@@ -58,7 +64,7 @@ const SingleEvent = ({ id, showModal1, setShowModal1 }) => {
     dispatch(deleteRsvp(rsvp));
     setCurrentRsvp(false);
   };
-  console.log("single eventtttttttttttttttttttttttt", singleEvent);
+
   return (
     <div className="singleArticle">
       <div>
@@ -94,8 +100,10 @@ const SingleEvent = ({ id, showModal1, setShowModal1 }) => {
         </ul>
         {!currentUser && (
           <>
-            <p>must be signed into to see rsvp's</p>
-            <LoginFormModal></LoginFormModal>
+            <LoginFormModal
+              name={`Rsvp List`}
+              title={`You must be Logged in to see the RSVP List`}
+            ></LoginFormModal>
           </>
         )}
       </div>
