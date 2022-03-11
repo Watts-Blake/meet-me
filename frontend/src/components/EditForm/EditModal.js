@@ -3,22 +3,30 @@ import { Modal } from "../../context/Modal";
 
 import EditEventForm from ".";
 
-const EditModal = ({ singleEvent, setShowModal1, showModal1 }) => {
-  const [showModal2, setShowModal2] = useState(false);
+const EditModal = ({ setShowSingleEventModal, setShowEventListModal }) => {
+  const [showEditModal, setShowEditModal] = useState(false);
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    setShowEditModal(true);
+  };
+
+  const handleClose = (e) => {
+    e.preventDefault();
+    setShowEditModal(false);
+  };
 
   return (
     <>
-      <button className="card collapse" onClick={() => setShowModal2(true)}>
+      <button className="card collapse" onClick={handleClick}>
         <i className="fa-solid fa-gear"></i>
       </button>
-      {showModal2 && (
-        <Modal onClose={() => setShowModal2(false)}>
+      {showEditModal && (
+        <Modal onClose={handleClose}>
           <EditEventForm
-            singleEvent={singleEvent}
-            showModal1={showModal1}
-            setShowModal1={setShowModal1}
-            showModal2={showModal2}
-            setShowModal2={setShowModal2}
+            setShowEventListModal={setShowEventListModal}
+            setShowSingleEventModal={setShowSingleEventModal}
+            setShowEditModal={setShowEditModal}
           ></EditEventForm>
         </Modal>
       )}

@@ -1,31 +1,33 @@
 import { useState } from "react";
 import { Modal } from "../../context/Modal";
 import DeleteEvent from ".";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const DeleteModal = ({
   eventId,
-  showModal1,
-  setShowModal1,
-  showModal2,
-  setShowModal2,
+  setShowEventListModal,
+  setShowSingleEventModal,
+  setShowEditModal,
 }) => {
-  const [showModal3, setShowModal3] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const handleClick = (e) => {
+    e.preventDefault();
+    setShowDeleteModal(true);
+  };
 
   return (
     <>
-      <button className="card" onClick={() => setShowModal3(true)}>
-        Delete Event
+      <button className="collapse_delete" onClick={handleClick}>
+        <i className="fa-regular fa-square-minus"></i>
       </button>
-      {showModal3 && (
-        <Modal onClose={() => setShowModal3(false)}>
+      {showDeleteModal && (
+        <Modal onClose={() => showDeleteModal(false)}>
           <DeleteEvent
             eventId={eventId}
-            showModal1={showModal1}
-            setShowModal1={setShowModal1}
-            showModal2={showModal2}
-            setShowModal2={setShowModal2}
-            showModal3={showModal3}
-            setShowModal3={setShowModal3}
+            setShowEventListModal={setShowEventListModal}
+            setShowSingleEventModal={setShowSingleEventModal}
+            setShowEditModal={setShowEditModal}
+            setShowDeleteModal={showDeleteModal}
           ></DeleteEvent>
         </Modal>
       )}

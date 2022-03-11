@@ -81,7 +81,7 @@ function LoginForm({ title }) {
               <h2>Squad</h2>
             </div>
           </span>
-          <h3 className="title">{title}</h3>
+          <h4>{title}</h4>
         </div>
 
         <div className="container column">

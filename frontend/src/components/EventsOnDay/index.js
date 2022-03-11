@@ -41,7 +41,7 @@ const EventOnDay = ({ value, onChange }) => {
           {currentDayEvents &&
             currentDayEvents.map((event) => (
               <EventDetails
-                events={events}
+                event={event}
                 key={event.id}
                 id={event.id}
                 name={event.name}
@@ -50,7 +50,7 @@ const EventOnDay = ({ value, onChange }) => {
         </ul>
         <div className="container column gap">
           <CreateModal name={"Create an Event on this day"} />
-          <EventListModal></EventListModal>
+          <EventListModal events={events}></EventListModal>
         </div>
       </div>
     );

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Modal } from "../../context/Modal";
 import EventList from ".";
 
-function EventListModal() {
+function EventListModal({ events }) {
   const [showEventListModal, setShowEventListModal] = useState(false);
   return (
     <>
@@ -18,7 +18,7 @@ function EventListModal() {
           setShowEventListModal={setShowEventListModal}
           onClose={() => setShowEventListModal(false)}
         >
-          <EventList />
+          <EventList events={events} />
         </Modal>
       )}
     </>

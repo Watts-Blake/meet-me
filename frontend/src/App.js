@@ -4,7 +4,9 @@ import { useDispatch } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import SignUpFormPage from "./components/SignUpFormPage";
 import SingleEventModal from "./components/SingleEvent/SingleEventModal";
-
+import { getEvents } from "./store/eventReducer";
+import { getTypes } from "./store/types";
+import { getVenues } from "./store/venues";
 import Splash from "./components/Splash";
 
 import * as sessionActions from "./store/session";
@@ -15,6 +17,15 @@ function App() {
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getTypes());
+    dispatch(getVenues());
+  });
+
+  useEffect(() => {
+    dispatch(getEvents());
   }, [dispatch]);
 
   return (

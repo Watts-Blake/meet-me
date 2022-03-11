@@ -4,7 +4,10 @@ import Calendar from "react-calendar";
 import { putEvent } from "../../store/eventReducer";
 import { differenceInCalendarDays, isBefore } from "date-fns";
 import DeleteModal from "../DeleteModal/DeleteModal";
-import { updateCurrentEventState } from "../../store/setCurrentEvent";
+import {
+  getCurrentEvent,
+  updateCurrentEventState,
+} from "../../store/setCurrentEvent";
 const hoursTransform = (hours) => {
   if (hours <= 12) {
     return `${hours}:00 AM`;
@@ -16,10 +19,9 @@ const hoursTransform = (hours) => {
 };
 
 const EditEventForm = ({
-  showModal1,
-  setShowModal1,
-  showModal2,
-  setShowModal2,
+  setShowEventListModal,
+  setShowSingleEventModal,
+  setShowEditModal,
 }) => {
   const dispatch = useDispatch();
   //-----------------------------------------------------------finding session user
@@ -116,132 +118,161 @@ const EditEventForm = ({
       capacity,
     };
 
-    dispatch(putEvent(updatedEvent));
-    await dispatch(updateCurrentEventState(updatedEvent));
-    setShowModal2(false);
+    await dispatch(putEvent(updatedEvent));
+    await dispatch(getCurrentEvent(event.id));
+    setShowEditModal(false);
     // reset();
+  };
+  const handleBack = (e) => {
+    e.preventDefault();
+    setShowEditModal(false);
   };
 
   return (
-    <div className="container">
-      <h1>Edit Event</h1>
-      <form onSubmit={handleSubmit}>
-        <div></div>
-        <select className="card" onChange={(e) => setVenue(e.target.value)}>
-          <option>{event.Venue.name}</option>
-          {allVenues.map((venue) => (
-            <option key={venue.id}>{venue.name}</option>
-          ))}
-        </select>
-        <select className="card" onChange={(e) => setType(e.target.value)}>
-          <option>{event.Type.name}</option>
-          {allTypes.map((type) => (
-            <option key={type.id}>{type.name}</option>
-          ))}
-        </select>
-        <input
-          className="card"
-          type="text"
-          onChange={(e) => setName(e.target.value)}
-          value={name}
-          placeholder={event.name}
-          name="title"
-        />
-        <select className="card" onChange={(e) => setCapacity(e.target.value)}>
-          <option>{event.capacity}</option>
-          <option>5</option>
-          <option>10</option>
-          <option>15</option>
-          <option>20</option>
-          <option>25</option>
-          <option>30</option>
-          <option>35</option>
-          <option>40</option>
-          <option>45</option>
-          <option>50</option>
-          <option>55</option>
-          <option>60</option>
-          <option>65</option>
-          <option>70</option>
-          <option>75</option>
-          <option>80</option>
-          <option>85</option>
-          <option>90</option>
-          <option>95</option>
-          <option>100</option>
-          <option>125</option>
-          <option>150</option>
-          <option>175</option>
-          <option>200</option>
-          <option>225</option>
-          <option>250</option>
-          <option>275</option>
-          <option>300</option>
-          <option>325</option>
-          <option>350</option>
-          <option>375</option>
-          <option>400</option>
-          <option>425</option>
-          <option>450</option>
-          <option>475</option>
-          <option>500</option>
-        </select>
-        <div>
-          <Calendar
-            className={"card"}
-            onChange={onChange}
-            value={value}
-            tileContent={tileContent}
-            tileDisabled={tileDisabled}
-          />
-        </div>
-        <div className="card">
-          <div>
-            <select className="card" onChange={(e) => setTime(e.target.value)}>
-              <option>{time}</option>
-              <option>12:00 AM</option>
-              <option>1:00 AM</option>
-              <option>2:00 AM</option>
-              <option>3:00 AM</option>
-              <option>4:00 AM</option>
-              <option>5:00 AM</option>
-              <option>6:00 AM</option>
-              <option>7:00 AM</option>
-              <option>8:00 AM</option>
-              <option>9:00 AM</option>
-              <option>10:00 AM</option>
-              <option>11:00 AM</option>
-              <option>12:00 PM</option>
-              <option>1:00 PM</option>
-              <option>2:00 PM</option>
-              <option>3:00 PM</option>
-              <option>4:00 PM</option>
-              <option>5:00 PM</option>
-              <option>6:00 PM</option>
-              <option>7:00 PM</option>
-              <option>8:00 PM</option>
-              <option>9:00 PM</option>
-              <option>10:00 PM</option>
-              <option>11:00 PM</option>
-            </select>
-          </div>
-        </div>
-
-        <button className={"card"} type="submit">
-          Confirm Changes
-        </button>
-      </form>
-      <button className="card" onClick={() => setShowModal2(false)}>
-        Cancel
+    <div className="top_modal_div">
+      <button className="card collapse back" onClick={handleBack}>
+        <i className="fa-solid fa-circle-chevron-left"></i>
       </button>
-      <DeleteModal
-        showModal1={showModal1}
-        setShowModal1={setShowModal1}
-        showModal2={showModal2}
-        setShowModal2={setShowModal2}
-        className={"card"}
-        eventId={event.id}
-      />
+      <div className="second_modal_div">
+        <div className="container column">
+          <h1>Edit Event</h1>
+          <form className="container row" onSubmit={handleSubmit}>
+            <div>
+              <Calendar
+                className={"card"}
+                onChange={onChange}
+                value={value}
+                tileContent={tileContent}
+                tileDisabled={tileDisabled}
+              />
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                height: "272px",
+                padding: "0.5rem",
+                margin: "1rem 0",
+              }}
+            >
+              <select
+                className="card"
+                onChange={(e) => setVenue(e.target.value)}
+              >
+                <option>{event.Venue.name}</option>
+                {allVenues.map((venue) => (
+                  <option key={venue.id}>{venue.name}</option>
+                ))}
+              </select>
+              <select
+                className="card"
+                onChange={(e) => setType(e.target.value)}
+              >
+                <option>{event.Type.name}</option>
+                {allTypes.map((type) => (
+                  <option key={type.id}>{type.name}</option>
+                ))}
+              </select>
+              <input
+                className="card"
+                type="text"
+                onChange={(e) => setName(e.target.value)}
+                value={name}
+                placeholder={event.name}
+                name="title"
+              />
+              <select
+                className="card"
+                onChange={(e) => setCapacity(e.target.value)}
+              >
+                <option>{event.capacity}</option>
+                <option>5</option>
+                <option>10</option>
+                <option>15</option>
+                <option>20</option>
+                <option>25</option>
+                <option>30</option>
+                <option>35</option>
+                <option>40</option>
+                <option>45</option>
+                <option>50</option>
+                <option>55</option>
+                <option>60</option>
+                <option>65</option>
+                <option>70</option>
+                <option>75</option>
+                <option>80</option>
+                <option>85</option>
+                <option>90</option>
+                <option>95</option>
+                <option>100</option>
+                <option>125</option>
+                <option>150</option>
+                <option>175</option>
+                <option>200</option>
+                <option>225</option>
+                <option>250</option>
+                <option>275</option>
+                <option>300</option>
+                <option>325</option>
+                <option>350</option>
+                <option>375</option>
+                <option>400</option>
+                <option>425</option>
+                <option>450</option>
+                <option>475</option>
+                <option>500</option>
+              </select>
+              <div className="card">
+                <div>
+                  <select
+                    className="card"
+                    onChange={(e) => setTime(e.target.value)}
+                  >
+                    <option>{time}</option>
+                    <option>12:00 AM</option>
+                    <option>1:00 AM</option>
+                    <option>2:00 AM</option>
+                    <option>3:00 AM</option>
+                    <option>4:00 AM</option>
+                    <option>5:00 AM</option>
+                    <option>6:00 AM</option>
+                    <option>7:00 AM</option>
+                    <option>8:00 AM</option>
+                    <option>9:00 AM</option>
+                    <option>10:00 AM</option>
+                    <option>11:00 AM</option>
+                    <option>12:00 PM</option>
+                    <option>1:00 PM</option>
+                    <option>2:00 PM</option>
+                    <option>3:00 PM</option>
+                    <option>4:00 PM</option>
+                    <option>5:00 PM</option>
+                    <option>6:00 PM</option>
+                    <option>7:00 PM</option>
+                    <option>8:00 PM</option>
+                    <option>9:00 PM</option>
+                    <option>10:00 PM</option>
+                    <option>11:00 PM</option>
+                  </select>
+                </div>
+              </div>
+
+              <button className="card collapse" type="submit">
+                Confirm Changes
+              </button>
+              <DeleteModal
+                setShowEventListModal={setShowEventListModal}
+                setShowSingleEventModal={setShowSingleEventModal}
+                setShowEditModal={setShowEditModal}
+                className={"card"}
+                eventId={event.id}
+              />
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   );
 };

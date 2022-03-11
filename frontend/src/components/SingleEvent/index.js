@@ -15,31 +15,22 @@ const hoursTransform = (hours) => {
   }
 };
 
-const SingleEvent = ({
-  id,
-  showModal1,
-  setShowModal1,
-  showEventListModal,
-  setShowEventListModal,
-}) => {
+const SingleEvent = ({ setShowSingleEventModal, setShowEventListModal }) => {
   const dispatch = useDispatch();
-  const [currentRsvp, setCurrentRsvp] = useState();
-  const [eventOwner, setEventOwner] = useState();
-  // const [singleEventModal, setSingleEventModal] = useState();
+
   const currentUser = useSelector((state) => state.session.user);
   const event = useSelector((state) => state.currentEvent);
-  // useEffect(() => {
-  //   dispatch(getCurrentEvent(id));
-  // }, [dispatch, id, event]);
-  // useEffect(() => {
-  //   dispatch(getRsvps(event.id));
-  // }, [dispatch, event, currentUser]);
-
   const rsvpObj = useSelector((state) => state.rsvp);
   const rsvpList = Object.values(rsvpObj);
 
+  const [currentRsvp, setCurrentRsvp] = useState();
+  const [eventOwner, setEventOwner] = useState();
+
   useEffect(() => {
-    if (rsvpList.find((rsvp) => rsvp.userId === currentUser.id)) {
+    if (
+      currentUser &&
+      rsvpList.find((rsvp) => rsvp.userId === currentUser.id)
+    ) {
       setCurrentRsvp(true);
     } else {
       setCurrentRsvp(false);
@@ -71,7 +62,7 @@ const SingleEvent = ({
     <div className="top_modal_div">
       <button
         className="card collapse back"
-        onClick={() => setShowModal1(false)}
+        onClick={() => setShowSingleEventModal(false)}
       >
         <i className="fa-solid fa-circle-chevron-left"></i>
       </button>
@@ -93,15 +84,22 @@ const SingleEvent = ({
               {rsvpList.length}/{event.capacity}
             </p>
 
-            {currentRsvp && (
+            {currentUser && currentRsvp && (
               <button className="card collapse_delete" onClick={handleUnRsvp}>
                 RSVP
               </button>
             )}
-            {!currentRsvp && (
+            {!currentRsvp && currentUser && (
               <button className="card collapse" onClick={handleRsvp}>
                 RSVP
               </button>
+            )}
+
+            {!currentRsvp && !currentUser && (
+              <LoginFormModal
+                name={`RSVP`}
+                title={`You must be Logged in to RSVP to an event`}
+              ></LoginFormModal>
             )}
           </div>
           <p
@@ -124,10 +122,8 @@ const SingleEvent = ({
               {eventOwner && (
                 <div>
                   <EditModal
-                    showModal1={showModal1}
-                    setShowModal1={setShowModal1}
-                    singleEvent={event}
-                    event={event}
+                    setShowSingleEventModal={setShowSingleEventModal}
+                    setShowEventListModal={setShowEventListModal}
                   />
                 </div>
               )}

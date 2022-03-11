@@ -1,12 +1,19 @@
 import { NavLink } from "react-router-dom";
 import SingleEventModal from "../SingleEvent/SingleEventModal";
+import { useEffect } from "react";
+import { getCurrentEvent } from "../../store/setCurrentEvent";
+import { useDispatch, useSelector } from "react-redux";
 
-const EventDetail = ({ id, name }) => {
+const EventDetails = ({ event }) => {
+  // useEffect(() => {
+  //   dispatch(getCurrentEvent(event.id));
+  // }, [dispatch]);
+
   return (
     <li className="list">
-      <SingleEventModal id={id} name={name} />
+      <SingleEventModal event={event} />
     </li>
   );
 };
 
-export default EventDetail;
+export default EventDetails;
