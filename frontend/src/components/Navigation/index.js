@@ -48,15 +48,7 @@ function Navigation({ isLoaded }) {
     <div className="nav container row gap sp__between" id="nav">
       <div className="container row gap">
         <div className="container row gap">
-          <NavLink
-            className="home__link"
-            exact
-            to="/"
-            style={{
-              textDecoration: "none",
-              color: "red",
-            }}
-          >
+          <NavLink className="home__link" exact to="/" style={{}}>
             Up Squad
           </NavLink>
         </div>

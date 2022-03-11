@@ -81,10 +81,16 @@ const EventForm = ({ showModal, setShowModal }) => {
   }
 
   function tileDisabled({ date, view }) {
-    // Add class to tiles in month view only
     if (view === "month") {
-      // Check if a date React-Calendar wants to check is within any of the ranges
       return isBefore(date, new Date());
+    }
+  }
+
+  function disabledColorTile({ date, view }) {
+    if (view === "month") {
+      if (isBefore(date, new Date())) {
+        return "disableColor";
+      }
     }
   }
   //----------------------------------------------------------------------calendar stuff
@@ -100,6 +106,7 @@ const EventForm = ({ showModal, setShowModal }) => {
             value={value}
             tileDisabled={tileDisabled}
             tileContent={tileContent}
+            tileClassName={disabledColorTile}
           />
         </div>
         <div id="createForm">
@@ -200,7 +207,9 @@ const EventForm = ({ showModal, setShowModal }) => {
             </div>
           </div>
 
-          <button type="submit">Submit</button>
+          <button className="collapse" type="submit">
+            Submit
+          </button>
         </div>
       </form>
     </div>

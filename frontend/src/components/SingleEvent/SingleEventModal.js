@@ -4,6 +4,7 @@ import SingleEvent from ".";
 import { getRsvps } from "../../store/rsvp";
 import { getCurrentEvent } from "../../store/setCurrentEvent";
 import { useDispatch } from "react-redux";
+import { useEffect } from "react";
 const SingleEventModal = ({
   id,
   name,
@@ -12,10 +13,13 @@ const SingleEventModal = ({
 }) => {
   const [showModal1, setShowModal1] = useState(false);
   const dispatch = useDispatch();
+  // useEffect(async () => {
+  //   dispatch(getCurrentEvent(id));
+  // }, [dispatch, id]);
   const handleClick = async (e) => {
     e.preventDefault();
-    await dispatch(getCurrentEvent(id));
     dispatch(getRsvps(id));
+    await dispatch(getCurrentEvent(id));
     setShowModal1(true);
   };
   return (

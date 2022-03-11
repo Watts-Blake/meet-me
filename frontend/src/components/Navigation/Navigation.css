@@ -1,8 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Macondo+Swash+Caps&display=swap");
 
 .nav a {
+  justify-content: center;
   text-decoration: none;
-  color: "red";
+  color: #00b786;
 }
 
 .home__link {

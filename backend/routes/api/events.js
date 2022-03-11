@@ -79,7 +79,15 @@ router
     asyncHandler(async (req, res) => {
       const event = await Event.findByPk(req.params.id);
       event.update(req.body);
-      return res.json(event);
+      const updatedEvent = await Event.findByPk(event.id, {
+        include: [
+          { model: User },
+          { model: Type },
+          { model: Venue },
+          { model: Rsvp, include: [{ model: User }] },
+        ],
+      });
+      return res.json(updatedEvent);
     })
   )
   .delete(

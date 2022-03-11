@@ -6,7 +6,10 @@ function EventListModal() {
   const [showEventListModal, setShowEventListModal] = useState(false);
   return (
     <>
-      <button className="card" onClick={() => setShowEventListModal(true)}>
+      <button
+        className="card collapse"
+        onClick={() => setShowEventListModal(true)}
+      >
         See All Events
       </button>
       {showEventListModal && (

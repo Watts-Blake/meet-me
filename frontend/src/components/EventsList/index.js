@@ -19,12 +19,13 @@ const EventList = ({ showEventListModal, setShowEventListModal }) => {
             events={events}
             key={event.id}
             id={event.id}
+            thisEvent={event}
             name={event.name}
           />
         ))}
       </ul>
 
-      <Switch>
+      {/* <Switch>
         <Route path="/events/:id">
           <SingleEvent
             showEventListModal={showEventListModal}
@@ -32,7 +33,7 @@ const EventList = ({ showEventListModal, setShowEventListModal }) => {
             events={events}
           />
         </Route>
-      </Switch>
+      </Switch> */}
     </div>
   );
 };

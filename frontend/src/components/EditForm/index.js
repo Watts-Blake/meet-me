@@ -4,8 +4,7 @@ import Calendar from "react-calendar";
 import { putEvent } from "../../store/eventReducer";
 import { differenceInCalendarDays, isBefore } from "date-fns";
 import DeleteModal from "../DeleteModal/DeleteModal";
-import { getCurrentEvent } from "../../store/setCurrentEvent";
-
+import { updateCurrentEventState } from "../../store/setCurrentEvent";
 const hoursTransform = (hours) => {
   if (hours <= 12) {
     return `${hours}:00 AM`;
@@ -105,7 +104,7 @@ const EditEventForm = ({
     setCapacity(5);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const updatedEvent = {
       eventId: event.id,
@@ -118,6 +117,7 @@ const EditEventForm = ({
     };
 
     dispatch(putEvent(updatedEvent));
+    await dispatch(updateCurrentEventState(updatedEvent));
     setShowModal2(false);
     // reset();
   };

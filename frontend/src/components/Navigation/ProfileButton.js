@@ -38,7 +38,7 @@ function ProfileButton({ user }) {
           <p>{user.username}</p>
           <p>{user.email}</p>
           <div>
-            <button className="collapse" onClick={logout}>
+            <button className="collapse_delete" onClick={logout}>
               Log Out
             </button>
           </div>

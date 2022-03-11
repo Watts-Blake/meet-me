@@ -8,8 +8,8 @@ const EditModal = ({ singleEvent, setShowModal1, showModal1 }) => {
 
   return (
     <>
-      <button className="card" onClick={() => setShowModal2(true)}>
-        Edit
+      <button className="card collapse" onClick={() => setShowModal2(true)}>
+        <i className="fa-solid fa-gear"></i>
       </button>
       {showModal2 && (
         <Modal onClose={() => setShowModal2(false)}>

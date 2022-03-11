@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 
 import { Route, Switch } from "react-router-dom";
 import SignUpFormPage from "./components/SignUpFormPage";
+import SingleEventModal from "./components/SingleEvent/SingleEventModal";
 
 import Splash from "./components/Splash";
 
@@ -28,6 +29,9 @@ function App() {
             <Splash></Splash>
           </Route>
           <Route path="*">404 the page youve requested does not exist</Route>
+          <Route path="/events/:id">
+            <SingleEventModal></SingleEventModal>
+          </Route>
         </Switch>
       )}
     </>

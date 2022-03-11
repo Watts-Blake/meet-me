@@ -11,15 +11,32 @@ html {
 body {
   margin: 0;
   background-color: #0f0f0f;
+  color: #b7b7b7;
 }
 h2 {
   margin-top: 10px;
   margin-bottom: 10px;
 }
+.back {
+  justify-self: flex-start;
+}
+.top_modal_div {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: space-between;
+}
+
+.second_modal_div {
+  height: 100%;
+  width: 100%;
+  z-index: 11;
+}
 
 h1,
 h2,
-h3 {
+h3,
+h4 {
   color: #00b786;
 }
 
@@ -69,10 +86,25 @@ abbr {
 .react-calendar__month-view__days__day--weekend {
   color: #4b4b4b;
 }
+
+.react-calendar__tile:disabled {
+  border: none;
+
+  background-color: #232323;
+}
+
+.react-calendar__tile--now {
+  background-color: #00b786;
+}
+
+.react-calendar__tile--active {
+  background-color: #4b4b4b;
+}
 /* ----------------------------------------------------calendar styles-------------------------- */
 .container {
   display: flex;
   align-items: center;
+  justify-content: center;
   /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25); */
   margin: 0.5rem 0.25rem;
   border-radius: 5px;
@@ -176,25 +208,6 @@ ul {
   font-family: "Courier New", Courier, monospace;
 }
 
-#home__link__login {
-  justify-content: center;
-  color: #00b786;
-}
-
-/* abbr {
-  display: flex;
-  justify-content: center;
-} */
-
-/* button {
-  background: none;
-  color: inherit;
-  border: none;
-  padding: 0;
-  font: inherit;
-  cursor: pointer;
-  outline: inherit;
-} */
 button {
   color: #b7b7b7;
   border: 2px solid #272727;
@@ -210,7 +223,12 @@ button {
 }
 
 .collapse:hover {
-  box-shadow: inset 0 0 0 50px #b7b7b7;
+  box-shadow: inset 0 0 0 50px #00b786;
+  color: #0f0f0f;
+}
+
+.collapse_delete:hover {
+  box-shadow: inset 0 0 0 50px red;
   color: #0f0f0f;
 }
 
