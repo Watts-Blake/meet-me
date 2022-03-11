@@ -1,0 +1,20 @@
+.react-calendar {
+  min-width: 40vw;
+  min-height: 35vh;
+  align-self: flex-start;
+}
+.welcome {
+  margin: 0 auto;
+}
+.event_h2 {
+  min-width: 40vw;
+  text-align: center;
+  margin: 0 auto;
+}
+.space_holder {
+  min-width: 40vw;
+}
+
+.calendar_container {
+  align-self: flex-start;
+}

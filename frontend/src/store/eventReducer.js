@@ -54,10 +54,9 @@ export const removeEvent = (eventId) => ({
 export const deleteEvent = (data) => async (dispatch) => {
   const res = await csrfFetch(`/api/events/${data}`, {
     method: "DELETE",
-    body: data,
   });
 
-  const { eventId } = await res.json();
+  const eventId = await res.json();
 
   dispatch(removeEvent(eventId));
   console.log(eventId);

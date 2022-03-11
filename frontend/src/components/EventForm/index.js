@@ -3,22 +3,17 @@ import { useDispatch, useSelector } from "react-redux";
 import Calendar from "react-calendar";
 import "./CreateEvent.css";
 import { postEvent } from "../../store/eventReducer";
-import { getVenues } from "../../store/venues";
-import { getTypes } from "../../store/types";
+import { differenceInCalendarDays, isBefore } from "date-fns";
 
 const EventForm = ({ showModal, setShowModal }) => {
   const sessionUser = useSelector((state) => state.session.user);
-  const [value, onChange] = useState(new Date());
+  const [value, setValue] = useState(new Date());
   const dispatch = useDispatch();
   const venuesObj = useSelector((state) => state.venue.entries);
   const venues = Object.values(venuesObj);
   const typesObj = useSelector((state) => state.type.entries);
   const types = Object.values(typesObj);
 
-  useEffect(() => {
-    dispatch(getVenues());
-    dispatch(getTypes());
-  }, [dispatch]);
   const [venue, setVenue] = useState("");
   const [type, setType] = useState("");
   const [name, setName] = useState("");
@@ -37,7 +32,6 @@ const EventForm = ({ showModal, setShowModal }) => {
 
     const date = `${value.toDateString()} ${time}`;
     const realVenue = venues.find((ven) => ven.name === venue);
-    console.log(date);
     const realType = types.find((typ) => typ.name === type);
 
     const newEvent = {
@@ -54,12 +48,59 @@ const EventForm = ({ showModal, setShowModal }) => {
     // reset();
   };
 
+  //----------------------------------------------------------------------calendar stuff
+  const eventsObj = useSelector((state) => state.event);
+  const events = Object.values(eventsObj);
+  const eventDateArr = events.map((event) => new Date(event.date));
+
+  function isSameDay(a, b) {
+    return differenceInCalendarDays(a, b) === 0;
+  }
+
+  function tileContent({ date, view }) {
+    // Add class to tiles in month view only
+    if (view === "month") {
+      if (eventDateArr.find((dDate) => isSameDay(dDate, date))) {
+        return (
+          <div
+            style={{
+              fontSize: "8px",
+            }}
+          >
+            🔵
+          </div>
+        );
+      } else {
+        return <div>•</div>;
+      }
+    }
+  }
+
+  function onChange(nextValue) {
+    setValue(nextValue);
+  }
+
+  function tileDisabled({ date, view }) {
+    // Add class to tiles in month view only
+    if (view === "month") {
+      // Check if a date React-Calendar wants to check is within any of the ranges
+      return isBefore(date, new Date());
+    }
+  }
+  //----------------------------------------------------------------------calendar stuff
+
   return (
     <div className="container column">
       <h1>Create Event</h1>
       <form className="container row" onSubmit={handleSubmit}>
         <div>
-          <Calendar className={"card"} onChange={onChange} value={value} />
+          <Calendar
+            className={"card"}
+            onChange={onChange}
+            value={value}
+            tileDisabled={tileDisabled}
+            tileContent={tileContent}
+          />
         </div>
         <div id="createForm">
           <select className="card" onChange={(e) => setVenue(e.target.value)}>

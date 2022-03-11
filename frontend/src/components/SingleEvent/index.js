@@ -1,5 +1,4 @@
 import { useSelector } from "react-redux";
-import { getEvents } from "../../store/eventReducer";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import EditModal from "../EditForm/EditModal";

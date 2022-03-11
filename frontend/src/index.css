@@ -10,12 +10,24 @@ html {
 
 body {
   margin: 0;
-  background-color: #3f3f3f;
+  background-color: #0f0f0f;
 }
 h2 {
   margin-top: 10px;
   margin-bottom: 10px;
 }
+
+h1,
+h2,
+h3 {
+  color: #00b786;
+}
+
+input {
+  background-color: #232323;
+  color: #b7b7b7;
+}
+
 #nav {
   max-height: 89px;
   margin-top: 0;
@@ -29,9 +41,19 @@ h2 {
 }
 /* ----------------------------------------------------calendar styles-------------------------- */
 .react-calendar__tile {
+  display: flex;
+  flex-direction: column;
   border-radius: 5px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
   /* box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25); */
 }
+
+abbr {
+  text-decoration: none;
+}
+
 .react-calendar__navigation__label {
   border-radius: 5px;
   /* box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25); */
@@ -41,7 +63,8 @@ h2 {
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.05);
 }
 .react-calendar {
-  background-color: #bf4a49;
+  background-color: #0f0f0f;
+  color: #b7b7b7;
 }
 .react-calendar__month-view__days__day--weekend {
   color: #4b4b4b;
@@ -52,7 +75,7 @@ h2 {
   align-items: center;
   /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25); */
   margin: 0.5rem 0.25rem;
-  /* border-radius: 12px; */
+  border-radius: 5px;
   /* background-color: #4b4b4b; */
 }
 .item__container {
@@ -65,12 +88,17 @@ h2 {
   /* border-radius: 12px;
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25); */
 }
+ul {
+  padding-left: 0;
+}
+.list {
+  margin: 0 auto;
+}
 
 .center {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
   font-size: 24px;
 }
 
@@ -87,6 +115,10 @@ h2 {
   gap: 10px;
 }
 
+.log {
+  max-height: 50px;
+}
+
 .column {
   flex-direction: column;
 }
@@ -101,12 +133,60 @@ h2 {
 
   border-width: 1px;
   border-style: double;
-  border-color: #bf4a49;
+  border-color: #272727;
   border-radius: 5px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 }
 
-button {
+.profile-dropdown {
+  margin: 0 auto;
+  max-height: 50px;
+}
+.profile-dropdown p,
+.profile-dropdown button {
+  margin: 0 auto;
+  max-height: 50px;
+}
+
+.modal_scroll {
+  display: flex;
+  justify-content: center;
+  height: 60vh;
+  width: 80vw;
+  overflow: auto;
+}
+
+.modal {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  overflow: auto;
+  max-width: 60vh;
+  border-radius: 5px;
+}
+.login_modal {
+  width: 100%;
+  justify-content: space-between;
+  margin: 20px 20px;
+  align-items: flex-start;
+}
+.title {
+  text-decoration: none;
+  color: black;
+  font-family: "Courier New", Courier, monospace;
+}
+
+#home__link__login {
+  justify-content: center;
+  color: #00b786;
+}
+
+/* abbr {
+  display: flex;
+  justify-content: center;
+} */
+
+/* button {
   background: none;
   color: inherit;
   border: none;
@@ -114,83 +194,24 @@ button {
   font: inherit;
   cursor: pointer;
   outline: inherit;
-}
-.button {
-  color: inherit;
-  border: 2px solid #bf4a49;
+} */
+button {
+  color: #b7b7b7;
+  border: 2px solid #272727;
   border-radius: 5px;
   padding: 2.5px 5px;
   display: inline-block;
   font-size: 14px;
   letter-spacing: 1px;
   cursor: pointer;
-  box-shadow: inset 0 0 0 0 #bf4a49;
+  box-shadow: inset 0 0 0 0 #b7b7b7;
   transition: ease-out 0.8s;
   background: none;
 }
 
 .collapse:hover {
-  box-shadow: inset 0 0 0 50px #bf4a49;
-}
-
-.event_link {
-  width: 300px;
-  height: 200px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
-.event_link a {
-  text-decoration: none;
-  border: 2px solid #010100;
-  padding: 15px;
-  color: #000;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  position: relative;
-  display: inline-block;
-}
-
-.art {
-  position: relative;
-  /* z-index coz when we put bg to before and after this span text will not be visible */
-  z-index: 3;
-}
-
-.event_link a::before {
-  content: "";
-  position: absolute;
-  top: 5px;
-  left: -2px;
-  width: calc(100% + 6px);
-  /*100% plus double the times left values*/
-  height: calc(100% - 10px);
-  background-color: inherit;
-  transition: all 0.5s ease-in-out;
-  transform: scaleY(1);
-}
-
-.event_link a:hover::before {
-  transform: scaleY(0);
-}
-
-.event_link a::after {
-  content: "";
-  position: absolute;
-  left: 5px;
-  top: -5px;
-  width: calc(100% - 10px);
-  /*100% plus double the times left values*/
-  height: calc(100% + 10px);
-  background-color: inherit;
-  transition: all 0.5s ease-in-out;
-  transform: scaleX(1);
-}
-
-.event_link a:hover::after {
-  transform: scaleX(0);
+  box-shadow: inset 0 0 0 50px #b7b7b7;
+  color: #0f0f0f;
 }
 
 ul {

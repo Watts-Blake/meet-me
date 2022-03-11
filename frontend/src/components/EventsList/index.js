@@ -4,17 +4,12 @@ import { Route, Switch } from "react-router-dom";
 
 import SingleEvent from "../SingleEvent";
 import EventDetails from "../EventDetails";
-import { getEvents } from "../../store/eventReducer";
 
 const EventList = ({ showEventListModal, setShowEventListModal }) => {
   const dispatch = useDispatch();
 
   const eventsObj = useSelector((state) => state.event);
   const events = Object.values(eventsObj);
-  useEffect(() => {
-    dispatch(getEvents());
-  }, [dispatch]);
-
   return (
     <div>
       <h1>Up Coming Events</h1>

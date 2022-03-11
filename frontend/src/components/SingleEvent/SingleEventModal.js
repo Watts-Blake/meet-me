@@ -19,14 +19,11 @@ const SingleEventModal = ({
     setShowModal1(true);
   };
   return (
-    <>
-      <div className="center">
-        <div className="event_link" onClick={handleClick}>
-          <a href="/">
-            <span className="art">{name}</span>
-          </a>
-        </div>
-      </div>
+    <div className="container">
+      <button className="collapse" onClick={handleClick}>
+        {name}
+      </button>
+
       {showModal1 && (
         <Modal onClose={() => setShowModal1(false)}>
           <SingleEvent
@@ -38,7 +35,7 @@ const SingleEventModal = ({
           ></SingleEvent>
         </Modal>
       )}
-    </>
+    </div>
   );
 };
 

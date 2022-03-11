@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Calendar from "react-calendar";
 import { putEvent } from "../../store/eventReducer";
-
+import { differenceInCalendarDays, isBefore } from "date-fns";
 import DeleteModal from "../DeleteModal/DeleteModal";
 import { getCurrentEvent } from "../../store/setCurrentEvent";
 
@@ -17,48 +17,35 @@ const hoursTransform = (hours) => {
 };
 
 const EditEventForm = ({
-  singleEvent,
   showModal1,
   setShowModal1,
   showModal2,
   setShowModal2,
 }) => {
+  const dispatch = useDispatch();
+  //-----------------------------------------------------------finding session user
   const sessionUser = useSelector((state) => state.session.user);
-  //should of refactored to this earlier
-  const vent = useSelector((state) => state.currentEvent);
-  //should of refactored to this earlier
-  const eventId = singleEvent.id;
+  const event = useSelector((state) => state.currentEvent);
   const hostId = sessionUser.id;
 
-  const eventsObj = useSelector((state) => state.event);
-
-  // console.log("events", eventId);
-  const events = Object.values(eventsObj);
-  const event = events.find((eve) => eve.id === eventId);
-  const [value, onChange] = useState(new Date(event.date));
-  // console.log("event", event);
-
-  const dispatch = useDispatch();
-
+  const [value, setValue] = useState(new Date(event.date));
+  //----------------------------------------------------------------getting venues and typs arrays for comparison
   const venuesObj = useSelector((state) => state.venue.entries);
   const allVenues = Object.values(venuesObj);
 
-  const eventVenue = allVenues.find((ven) => ven.id === event.venueId);
-
   const typesObj = useSelector((state) => state.type.entries);
   const allTypes = Object.values(typesObj);
-
-  const [venue, setVenue] = useState(vent.Venue.name);
-  // console.log("venuuuuuuuuuuuuuuuuuuuuuuuuuu", venue);
-  const [venueId, setVenueId] = useState(vent.Venue.id);
-  const [type, setType] = useState(vent.Type.name);
-  const [typeId, setTypeId] = useState(vent.Type.Id);
-  const [name, setName] = useState(vent.name);
-  const [hours, setHours] = useState(new Date(vent.date).getHours());
+  //----------------------------------------------------------setting slices of state for thunk update
+  const [venue, setVenue] = useState(event.Venue.name);
+  const [venueId, setVenueId] = useState(event.Venue.id);
+  const [type, setType] = useState(event.Type.name);
+  const [typeId, setTypeId] = useState(event.Type.Id);
+  const [name, setName] = useState(event.name);
+  const [hours, setHours] = useState(new Date(event.date).getHours());
   const [time, setTime] = useState(hoursTransform(hours));
-  const [date, setDate] = useState(vent.date);
-  const [capacity, setCapacity] = useState(vent.capacity);
-
+  const [date, setDate] = useState(event.date);
+  const [capacity, setCapacity] = useState(event.capacity);
+  //----------------------------------------------find new event info on change of any of these dependencies
   useEffect(() => {
     const newVenue = allVenues.find((ven) => ven.name === venue);
     setVenueId(newVenue.id);
@@ -70,7 +57,46 @@ const EditEventForm = ({
     setTime(hoursTransform(hours));
     console.log(realDate);
   }, [venue, type, allVenues, allTypes, time, value, hours, event.date]);
+  //----------------------------------------------------------------------calendar stuff
+  const eventsObj = useSelector((state) => state.event);
+  const events = Object.values(eventsObj);
+  const eventDateArr = events.map((event) => new Date(event.date));
 
+  function isSameDay(a, b) {
+    return differenceInCalendarDays(a, b) === 0;
+  }
+
+  function tileContent({ date, view }) {
+    // Add class to tiles in month view only
+    if (view === "month") {
+      if (eventDateArr.find((dDate) => isSameDay(dDate, date))) {
+        return (
+          <span
+            style={{
+              fontSize: "8px",
+            }}
+          >
+            🔵
+          </span>
+        );
+      } else {
+        return <div>•</div>;
+      }
+    }
+  }
+
+  function onChange(nextValue) {
+    setValue(nextValue);
+  }
+
+  function tileDisabled({ date, view }) {
+    // Add class to tiles in month view only
+    if (view === "month") {
+      // Check if a date React-Calendar wants to check is within any of the ranges
+      return isBefore(date, new Date());
+    }
+  }
+  //----------------------------------------------------------------------calendar stuff
   const reset = () => {
     setVenueId("");
     setTypeId("");
@@ -81,16 +107,8 @@ const EditEventForm = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // setVenue(allVenues.find((ven) => ven.name === venue.name));
-    // console.log("submit venue", venue);
-    // setVenueId(venue.id);
-    // setType(allTypes.find((typ) => typ.name === type.name));
-    // setTypeId(type);
-    // const realDate = `${value.toDateString()} ${time}`;
-    // setDate(realDate);
-    // console.log("dateeeeeeeeeeeeeeeeeeeeeeeee", date);
     const updatedEvent = {
-      eventId,
+      eventId: event.id,
       hostId,
       venueId,
       typeId,
@@ -100,7 +118,6 @@ const EditEventForm = ({
     };
 
     dispatch(putEvent(updatedEvent));
-    dispatch(getCurrentEvent(eventId));
     setShowModal2(false);
     // reset();
   };
@@ -111,13 +128,13 @@ const EditEventForm = ({
       <form onSubmit={handleSubmit}>
         <div></div>
         <select className="card" onChange={(e) => setVenue(e.target.value)}>
-          <option>{vent.Venue.name}</option>
+          <option>{event.Venue.name}</option>
           {allVenues.map((venue) => (
             <option key={venue.id}>{venue.name}</option>
           ))}
         </select>
         <select className="card" onChange={(e) => setType(e.target.value)}>
-          <option>{vent.Type.name}</option>
+          <option>{event.Type.name}</option>
           {allTypes.map((type) => (
             <option key={type.id}>{type.name}</option>
           ))}
@@ -127,11 +144,11 @@ const EditEventForm = ({
           type="text"
           onChange={(e) => setName(e.target.value)}
           value={name}
-          placeholder={singleEvent.name}
+          placeholder={event.name}
           name="title"
         />
         <select className="card" onChange={(e) => setCapacity(e.target.value)}>
-          <option>{singleEvent.capacity}</option>
+          <option>{event.capacity}</option>
           <option>5</option>
           <option>10</option>
           <option>15</option>
@@ -170,7 +187,13 @@ const EditEventForm = ({
           <option>500</option>
         </select>
         <div>
-          <Calendar className={"card"} onChange={onChange} value={value} />
+          <Calendar
+            className={"card"}
+            onChange={onChange}
+            value={value}
+            tileContent={tileContent}
+            tileDisabled={tileDisabled}
+          />
         </div>
         <div className="card">
           <div>
@@ -217,7 +240,7 @@ const EditEventForm = ({
         showModal2={showModal2}
         setShowModal2={setShowModal2}
         className={"card"}
-        eventId={singleEvent.id}
+        eventId={event.id}
       />
     </div>
   );

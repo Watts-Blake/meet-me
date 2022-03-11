@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteEvent } from "../../store/eventReducer";
 
-//dispatch(deleteEvent(eventId)
 const DeleteEvent = ({
   eventId,
   showModal1,
@@ -14,7 +13,7 @@ const DeleteEvent = ({
 }) => {
   const dispatch = useDispatch();
 
-  const handleDelete = (e) => {
+  const handleDelete = async (e) => {
     e.preventDefault();
     console.log("handle delete function", eventId);
     dispatch(deleteEvent(eventId));
