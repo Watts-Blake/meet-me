@@ -1,0 +1,5 @@
+.current_events_container {
+  min-width: 40vw;
+  min-height: 10vh;
+  align-self: flex-start;
+}

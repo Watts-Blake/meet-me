@@ -1,21 +1,31 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+
 import { Route, Switch } from "react-router-dom";
 import SignUpFormPage from "./components/SignUpFormPage";
-import EventForm from "./components/EventForm";
-import EventList from "./components/EventsList";
+import SingleEventModal from "./components/SingleEvent/SingleEventModal";
+import { getEvents } from "./store/eventReducer";
+import { getTypes } from "./store/types";
+import { getVenues } from "./store/venues";
 import Splash from "./components/Splash";
-import SingleEvent from "./components/SingleEvent";
+
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
-  const [value, setValue] = useState(new Date());
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getTypes());
+    dispatch(getVenues());
+  });
+
+  useEffect(() => {
+    dispatch(getEvents());
   }, [dispatch]);
 
   return (
@@ -29,11 +39,9 @@ function App() {
           <Route exact path="/">
             <Splash></Splash>
           </Route>
-          <Route path="/events/add">
-            <EventForm></EventForm>
-          </Route>
+          <Route path="*">404 the page youve requested does not exist</Route>
           <Route path="/events/:id">
-            <SingleEvent></SingleEvent>
+            <SingleEventModal></SingleEventModal>
           </Route>
         </Switch>
       )}

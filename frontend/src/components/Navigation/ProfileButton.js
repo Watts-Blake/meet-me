@@ -29,20 +29,22 @@ function ProfileButton({ user }) {
   };
 
   return (
-    <>
-      <button onClick={openMenu}>
+    <div className="container row log">
+      <button className="collapse" onClick={openMenu}>
         <i className="fas fa-user-circle" />
       </button>
       {showMenu && (
-        <ul className="profile-dropdown">
-          <li>{user.username}</li>
-          <li>{user.email}</li>
-          <li>
-            <button onClick={logout}>Log Out</button>
-          </li>
-        </ul>
+        <div className="profile-dropdown container row gap">
+          <p>{user.username}</p>
+          <p>{user.email}</p>
+          <div>
+            <button className="collapse_delete" onClick={logout}>
+              Log Out
+            </button>
+          </div>
+        </div>
       )}
-    </>
+    </div>
   );
 }
 

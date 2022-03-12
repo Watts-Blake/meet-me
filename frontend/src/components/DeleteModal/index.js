@@ -2,23 +2,20 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteEvent } from "../../store/eventReducer";
 
-//dispatch(deleteEvent(eventId)
 const DeleteEvent = ({
   eventId,
-  showModal1,
-  setShowModal1,
-  showModal2,
-  setShowModal2,
-  showModal3,
-  setShowModal3,
+  setShowEventListModal,
+  setShowSingleEventModal,
+  setShowEditModal,
+  setShowDeleteModal,
 }) => {
   const dispatch = useDispatch();
 
-  const handleDelete = (e) => {
+  const handleDelete = async (e) => {
     e.preventDefault();
     console.log("handle delete function", eventId);
     dispatch(deleteEvent(eventId));
-    setShowModal1(false);
+    setShowSingleEventModal(false);
   };
 
   return (
@@ -27,9 +24,9 @@ const DeleteEvent = ({
       <button className="card" onClick={handleDelete}>
         Confirm Delete
       </button>
-      <button className="card" onClick={() => setShowModal3(false)}>
+      {/* <button className="card collapse" onClick={handleDelete}>
         Cancel
-      </button>
+      </button> */}
     </div>
   );
 };

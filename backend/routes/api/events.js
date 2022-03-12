@@ -1,6 +1,8 @@
 const { User, Event, Rsvp, Venue, Type } = require("../../db/models");
 const { handleValidationErrors } = require("../../utils/validation");
 const { requireAuth } = require("../../utils/auth");
+const { Op } = require("sequelize");
+// const Sequelize = require("sequelize");
 //------------------------------------------------------middle-ware------------------------------------------
 const express = require("express");
 const asyncHandler = require("express-async-handler");
@@ -50,7 +52,15 @@ router
     //create events
     requireAuth,
     asyncHandler(async (req, res) => {
-      const event = await Event.create(req.body);
+      const updatedEvent = await Event.create(req.body);
+      const event = await Event.findByPk(updatedEvent.id, {
+        include: [
+          { model: User },
+          { model: Type },
+          { model: Venue },
+          { model: Rsvp, include: [{ model: User }] },
+        ],
+      });
       return res.json(event);
     })
   );
@@ -60,7 +70,14 @@ router
     //get specific event
     asyncHandler(async (req, res) => {
       const eventId = req.params.id * 1;
-      const event = await Event.findByPk(eventId);
+      const event = await Event.findByPk(eventId, {
+        include: [
+          { model: User },
+          { model: Type },
+          { model: Venue },
+          { model: Rsvp, include: [{ model: User }] },
+        ],
+      });
       return res.json(event);
     })
   )
@@ -70,7 +87,15 @@ router
     asyncHandler(async (req, res) => {
       const event = await Event.findByPk(req.params.id);
       event.update(req.body);
-      return res.json(event);
+      const updatedEvent = await Event.findByPk(event.id, {
+        include: [
+          { model: User },
+          { model: Type },
+          { model: Venue },
+          { model: Rsvp, include: [{ model: User }] },
+        ],
+      });
+      return res.json(updatedEvent);
     })
   )
   .delete(
@@ -78,7 +103,7 @@ router
     requireAuth,
     asyncHandler(async (req, res) => {
       const eventId = req.params.id * 1;
-      // console.log("hereeeeeeeeeeeeeeeeeeeeeeeeeeee", eventId);
+      console.log(req.params.id * 1);
       const event = await Event.findByPk(eventId);
 
       // if (req.session.auth.userId !== event.hostId) {
@@ -87,7 +112,7 @@ router
       // }
 
       await event.destroy();
-      return res.json({ eventId });
+      return res.json(eventId);
       // } else {
       //   const err = new Error("Event Does Not Exist!");
       //   return next(err);
@@ -129,15 +154,42 @@ router.route("/:id/:userId").delete(
   requireAuth,
   asyncHandler(async (req, res) => {
     const eventId = req.params.id * 1;
-    console.log("hereeeeeeeeeeeeeeeeeeeeeeeee is the event id", eventId);
     const userId = req.body.userId;
-    console.log(
-      "hereeeeeeeeeeeeeeeeeeeeeeeee is the userrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr id",
-      eventId
-    );
     const rsvp = await Rsvp.findOne({ where: { eventId, userId } });
     await rsvp.destroy();
     return res.json(rsvp);
+  })
+);
+//------------------------------------------------------days events
+
+router.route("/day/:id").get(
+  asyncHandler(async (req, res) => {
+    const dateUrl = req.params.id;
+    const dateArr = dateUrl.split("%");
+    const dateStr = dateArr.join(" ");
+    const dateS = new Date(dateStr).toDateString();
+    console.log(
+      "hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      dateS
+    );
+    const events = await Event.findAll({
+      where: {
+        date: {
+          [Op.like]: `%${dateS}%`,
+        },
+      },
+      include: [
+        { model: User },
+        { model: Type },
+        { model: Venue },
+        { model: Rsvp, include: [{ model: User }] },
+      ],
+    });
+    if (events) {
+      return res.json(events);
+    } else {
+      res.json(null);
+    }
   })
 );
 

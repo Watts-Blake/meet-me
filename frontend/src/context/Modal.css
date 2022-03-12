@@ -7,6 +7,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow-y: auto;
+  z-index: 1;
 }
 
 #modal-background {
@@ -20,5 +22,14 @@
 
 #modal-content {
   position: absolute;
-  background-color: #4b4b4b;
+  background-color: #0f0f0f;
+  border-radius: 15px;
+  border-left: 2px solid #272727;
+  display: flex;
+  justify-content: center;
+
+  overflow-x: hidden;
+  min-width: 40vw;
+  max-width: 90vw;
+  max-height: 90vh;
 }

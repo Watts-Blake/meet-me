@@ -1,43 +1,29 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Route, Switch } from "react-router-dom";
+import React from "react";
+import { useSelector } from "react-redux";
 
-import SingleEvent from "../SingleEvent";
 import EventDetails from "../EventDetails";
-import { getEvents } from "../../store/eventReducer";
 
 const EventList = ({ showEventListModal, setShowEventListModal }) => {
-  const dispatch = useDispatch();
-
   const eventsObj = useSelector((state) => state.event);
   const events = Object.values(eventsObj);
-  useEffect(() => {
-    dispatch(getEvents());
-  }, [dispatch]);
-
   return (
-    <div>
-      <h1>Up Coming Events</h1>
+    <div className="container column list__all">
+      <h1
+        style={{
+          position: "fixed",
+          top: "6px",
+          backgroundColor: "black",
+          width: "auto",
+          borderRadius: "5px",
+        }}
+      >
+        Up Coming Events
+      </h1>
       <ul>
         {events.map((event) => (
-          <EventDetails
-            events={events}
-            key={event.id}
-            id={event.id}
-            name={event.name}
-          />
+          <EventDetails event={event} key={event.id} />
         ))}
       </ul>
-
-      <Switch>
-        <Route path="/events/:id">
-          <SingleEvent
-            showEventListModal={showEventListModal}
-            setShowEventListModal={setShowEventListModal}
-            events={events}
-          />
-        </Route>
-      </Switch>
     </div>
   );
 };

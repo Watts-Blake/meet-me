@@ -15,65 +15,49 @@ function Navigation({ isLoaded }) {
   let sessionLinks;
   let createLinks;
   if (sessionUser) {
-    sessionLinks = <ProfileButton user={sessionUser} />;
+    sessionLinks = <ProfileButton className="log" user={sessionUser} />;
     createLinks = (
-      <>
+      <div className="container row gap">
         <CreateModal></CreateModal>
         <EventListModal />
-      </>
+      </div>
     );
   } else {
     sessionLinks = (
       <div>
         <LoginFormModal name={`Login || Signup`} title={`Login || Signup`} />
-
-        {/* <NavLink
-          exact
-          to="/signup"
-          style={{ textDecoration: "none", color: "red" }}
-        >
-          <button className="card">SignUp</button>
-        </NavLink> */}
       </div>
     );
 
     createLinks = (
       <div>
         {!sessionUser && (
-          <>
+          <div className="container row gap">
             <LoginFormModal
               name={`Create an Event`}
               title={`You Must Be Signed In To Create an Event`}
             />
             <EventListModal />
-          </>
+          </div>
         )}
       </div>
     );
   }
 
   return (
-    <div className="container nav" id="nav">
-      <div className="container">
-        <div className="container">
-          <NavLink
-            className="home__link"
-            exact
-            to="/"
-            style={{
-              textDecoration: "none",
-              color: "red",
-            }}
-          >
+    <div className="nav container row gap sp__between" id="nav">
+      <div className="container row gap">
+        <div className="container row gap">
+          <NavLink className="home__link" exact to="/" style={{}}>
             Up Squad
           </NavLink>
         </div>
-        <div className="container">
+        <div className="">
           <SearchBar />
         </div>
       </div>
-      <div className="container">{isLoaded && createLinks}</div>
-      <div className="container">{isLoaded && sessionLinks}</div>
+      <div className="">{isLoaded && createLinks}</div>
+      <div className="log">{isLoaded && sessionLinks}</div>
     </div>
   );
 }
