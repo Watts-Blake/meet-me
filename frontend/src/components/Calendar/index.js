@@ -39,13 +39,14 @@ const MyCalendar = () => {
 
   return (
     <div className="container row gap">
-      <div>
+      <div className="main_calendar">
         <Calendar
-          className="card"
+          className="card "
           onChange={onChange}
           value={value}
           tileContent={tileContent}
           onClickDay={console.log(value)}
+          id=""
         />
       </div>
       <div className="current_events_container">

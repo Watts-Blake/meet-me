@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Calendar from "react-calendar";
 import "./CreateEvent.css";
 import { postEvent } from "../../store/eventReducer";
+import { postRsvp } from "../../store/rsvp";
 import { differenceInCalendarDays, isBefore } from "date-fns";
 
 const EventForm = ({ showModal, setShowModal }) => {

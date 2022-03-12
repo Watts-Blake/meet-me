@@ -21,6 +21,7 @@ const SingleEventModal = ({
   setShowEventListModal,
 }) => {
   const [showSingleEventModal, setShowSingleEventModal] = useState(false);
+  const eventsObj = useSelector((state) => state.eventId);
   const dispatch = useDispatch();
   //     dispatch(getRsvps(event.id));
   //     dispatch(getCurrentEvent(event.id));
@@ -38,16 +39,16 @@ const SingleEventModal = ({
         style={{ maxHeight: "100px", width: "100%" }}
         onClick={handleClick}
       >
-        <p className="container row gap" style={{ height: "10px" }}>
+        <span className="container row gap" style={{ height: "10px" }}>
           {event.name} <h4> at </h4>
           {hoursTransform(new Date(event.date).getHours())}
-        </p>
+        </span>
         <h6 className="">{new Date(event.date).toDateString()}</h6>
-        <p className="container row gap" style={{ height: "8px" }}>
+        <div className="container row gap" style={{ height: "8px" }}>
           {event.Venue.city}
           <h4> , </h4>
           {event.Venue.state}
-        </p>
+        </div>
       </button>
 
       {showSingleEventModal && (

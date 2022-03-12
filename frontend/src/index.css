@@ -101,6 +101,33 @@ abbr {
 .react-calendar__tile--active {
   background-color: #4b4b4b;
 }
+body::-webkit-scrollbar {
+  display: none;
+}
+
+#modal-content::-webkit-scrollbar {
+  display: none;
+}
+.current_events {
+  width: 700px;
+}
+.main_calendar {
+  justify-self: flex-end;
+  align-self: flex-start;
+  margin-top: 9px;
+  padding-top: 0;
+} /*
+.
+
+.welcome {
+  height: 50px;
+  position: fixed;
+  top: 10;
+}
+.events_caledar_title {
+  position: fixed;
+  top: 5;
+} */
 /* ----------------------------------------------------calendar styles-------------------------- */
 .container {
   display: flex;
@@ -116,8 +143,14 @@ abbr {
 }
 #event_list_button {
   display: flex;
-  flex-direction: column;
-  justify-items: space-around;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+li.list {
+  width: 100%;
 }
 
 .list__all {
@@ -240,7 +273,7 @@ button {
 }
 
 h6 {
-  max-height: 20%;
+  height: 5%;
 }
 
 .collapse_delete:hover {
