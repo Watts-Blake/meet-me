@@ -32,7 +32,7 @@ const SingleEventModal = ({
     setShowSingleEventModal(true);
   };
   return (
-    <div className="container column">
+    <div className="container column list_button" style={{ width: "90%" }}>
       <button
         className="collapse container column"
         id="event_list_button"
@@ -40,13 +40,13 @@ const SingleEventModal = ({
         onClick={handleClick}
       >
         <span className="container row gap" style={{ height: "10px" }}>
-          {event.name} <h4> at </h4>
+          {event.name.toUpperCase()} <h4> at </h4>
           {hoursTransform(new Date(event.date).getHours())}
         </span>
         <h6 className="">{new Date(event.date).toDateString()}</h6>
         <div className="container row gap" style={{ height: "8px" }}>
           {event.Venue.city}
-          <h4> , </h4>
+          <h4>,</h4>
           {event.Venue.state}
         </div>
       </button>

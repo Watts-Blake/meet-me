@@ -7,7 +7,7 @@ import SingleEventModal from "./components/SingleEvent/SingleEventModal";
 import { getEvents } from "./store/eventReducer";
 import { getTypes } from "./store/types";
 import { getVenues } from "./store/venues";
-import Splash from "./components/Splash";
+import Slash from "./components/Slash";
 
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
@@ -29,15 +29,15 @@ function App() {
   }, [dispatch]);
 
   return (
-    <>
-      <Navigation isLoaded={isLoaded} />
+    <div className="app">
+      <Navigation className="nav" isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
           <Route path="/signup">
             <SignUpFormPage />
           </Route>
           <Route exact path="/">
-            <Splash></Splash>
+            <Slash></Slash>
           </Route>
           <Route path="*">404 the page youve requested does not exist</Route>
           <Route path="/events/:id">
@@ -45,7 +45,7 @@ function App() {
           </Route>
         </Switch>
       )}
-    </>
+    </div>
   );
 }
 

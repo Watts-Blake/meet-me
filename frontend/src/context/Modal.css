@@ -23,8 +23,8 @@
 #modal-content {
   position: absolute;
   background-color: #0f0f0f;
-  border-radius: 15px;
-  border-left: 2px solid #272727;
+  border-radius: 5px;
+
   display: flex;
   justify-content: center;
 

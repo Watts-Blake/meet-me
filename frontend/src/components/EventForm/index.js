@@ -7,6 +7,7 @@ import { postRsvp } from "../../store/rsvp";
 import { differenceInCalendarDays, isBefore } from "date-fns";
 
 const EventForm = ({ showModal, setShowModal }) => {
+  const [errors, setErrors] = useState([]);
   const sessionUser = useSelector((state) => state.session.user);
   const [value, setValue] = useState(new Date());
   const dispatch = useDispatch();
@@ -19,33 +20,50 @@ const EventForm = ({ showModal, setShowModal }) => {
   const [type, setType] = useState("");
   const [name, setName] = useState("");
   const [time, setTime] = useState("");
-  const [capacity, setCapacity] = useState(5);
+  const [capacity, setCapacity] = useState("");
 
-  const reset = () => {
-    setVenue("");
-    setType("");
-    setName("");
-    setTime(new Date().toString());
-    setCapacity(5);
-  };
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    let submitErrors = [];
     const date = `${value.toDateString()} ${time}`;
     const realVenue = venues.find((ven) => ven.name === venue);
     const realType = types.find((typ) => typ.name === type);
+    if (!sessionUser.id) {
+      submitErrors.push("You must be a logged in user to create an Event.");
+      setVenue("");
+    }
+    console.log(realVenue);
+    if (!realVenue) {
+      submitErrors.push("You must choose a venue for your Event.");
+    }
+    if (!realType) {
+      submitErrors.push("You must choose a Category for your Event.");
+      setType("");
+    }
+    if (name.length > 20) {
+      submitErrors.push("Your Events name must be less than 20 characters.");
+      setName("");
+    }
+    if (!Number(capacity)) {
+      submitErrors.push("You must choose a capacity for your event.");
+    }
 
-    const newEvent = {
-      hostId: sessionUser.id,
-      venueId: realVenue.id,
-      typeId: realType.id,
-      name,
-      date: date.toString(),
-      capacity,
-    };
+    if (submitErrors.length) {
+      return setErrors(submitErrors);
+    } else {
+      const newEvent = {
+        hostId: sessionUser.id,
+        venueId: realVenue.id,
+        typeId: realType.id,
+        name,
+        date: date.toString(),
+        capacity,
+      };
 
-    dispatch(postEvent(newEvent));
-    setShowModal(false);
+      dispatch(postEvent(newEvent));
+      setShowModal(false);
+    }
+
     // reset();
   };
 
@@ -99,8 +117,15 @@ const EventForm = ({ showModal, setShowModal }) => {
   return (
     <div className="container column">
       <h1>Create Event</h1>
-      <form className="container row" onSubmit={handleSubmit}>
-        <div>
+      <form
+        className="container row"
+        onSubmit={handleSubmit}
+        style={{ textAlign: "center" }}
+      >
+        <div className="container column">
+          <span style={{ textAlign: "center" }}>
+            {new Date(value).toDateString()}
+          </span>
           <Calendar
             className={"card"}
             onChange={onChange}
@@ -110,19 +135,31 @@ const EventForm = ({ showModal, setShowModal }) => {
             tileClassName={disabledColorTile}
           />
         </div>
-        <div id="createForm">
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            gap: "10px",
+            padding: "0.5rem",
+            margin: "1rem 0",
+          }}
+        >
+          <h4 style={{ margin: "0" }}>Venue</h4>
           <select className="card" onChange={(e) => setVenue(e.target.value)}>
             <option>Pick Your Venue!</option>
             {venues.map((venue) => (
               <option key={venue.id}>{venue.name}</option>
             ))}
           </select>
+          <h4 style={{ margin: "0" }}>Type</h4>
           <select className="card" onChange={(e) => setType(e.target.value)}>
             <option>Pick a Category!</option>
             {types.map((type) => (
               <option key={type.id}>{type.name}</option>
             ))}
           </select>
+          <h4 style={{ margin: "0" }}>Name</h4>
           <input
             className="card"
             type="text"
@@ -130,7 +167,9 @@ const EventForm = ({ showModal, setShowModal }) => {
             value={name}
             placeholder="Event Name"
             name="title"
+            required
           />
+          <h4 style={{ margin: "0" }}>Capacity</h4>
           <select
             className="card"
             onChange={(e) => setCapacity(e.target.value)}
@@ -176,6 +215,7 @@ const EventForm = ({ showModal, setShowModal }) => {
           <div></div>
           <div className="card">
             <div>
+              <h4 style={{ margin: "0" }}>Time</h4>
               <select
                 className="card"
                 onChange={(e) => setTime(e.target.value)}
@@ -212,6 +252,11 @@ const EventForm = ({ showModal, setShowModal }) => {
             Submit
           </button>
         </div>
+        <ul>
+          {errors.map((error, idx) => (
+            <li key={idx}>{error}</li>
+          ))}
+        </ul>
       </form>
     </div>
   );

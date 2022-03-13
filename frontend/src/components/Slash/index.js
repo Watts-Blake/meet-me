@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import MyCalendar from "../Calendar";
 
 import "./Splash.css";
-const Splash = () => {
+const Slash = () => {
   const currentUser = useSelector((state) => state.session.user);
 
   return (
@@ -17,11 +17,10 @@ const Splash = () => {
         </div>
         <div className="space_holder"></div>
       </div>
-      <div className="container row sp__around gap">
-        <MyCalendar className="card" />
-      </div>
+
+      <MyCalendar className="card" />
     </div>
   );
 };
 
-export default Splash;
+export default Slash;

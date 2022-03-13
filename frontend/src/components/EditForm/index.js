@@ -23,6 +23,7 @@ const EditEventForm = ({
   setShowSingleEventModal,
   setShowEditModal,
 }) => {
+  const [errors, setErrors] = useState([]);
   const dispatch = useDispatch();
   //-----------------------------------------------------------finding session user
   const sessionUser = useSelector((state) => state.session.user);
@@ -108,19 +109,46 @@ const EditEventForm = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const updatedEvent = {
-      eventId: event.id,
-      hostId,
-      venueId,
-      typeId,
-      name,
-      date: date.toString(),
-      capacity,
-    };
 
-    await dispatch(putEvent(updatedEvent));
-    await dispatch(getCurrentEvent(event.id));
-    setShowEditModal(false);
+    let submitErrors = [];
+    if (!sessionUser.id) {
+      submitErrors.push("You must be a logged in user to create an Event.");
+      setVenue("");
+    }
+
+    if (!venueId) {
+      submitErrors.push("You must choose a venue for your Event.");
+    }
+    if (!typeId) {
+      submitErrors.push("You must choose a Category for your Event.");
+      setType("");
+    }
+    if (name.length > 20) {
+      submitErrors.push("Your Events name must be less than 20 characters.");
+      setName("");
+    }
+    if (!Number(capacity)) {
+      submitErrors.push("You must choose a capacity for your event.");
+    }
+
+    if (submitErrors.length) {
+      return setErrors(submitErrors);
+    } else {
+      const updatedEvent = {
+        eventId: event.id,
+        hostId,
+        venueId,
+        typeId,
+        name,
+        date: date.toString(),
+        capacity,
+      };
+
+      await dispatch(putEvent(updatedEvent));
+      await dispatch(getCurrentEvent(event.id));
+      setShowEditModal(false);
+    }
+
     // reset();
   };
   const handleBack = (e) => {
@@ -136,7 +164,11 @@ const EditEventForm = ({
       <div className="second_modal_div">
         <div className="container column">
           <h1>Edit Event</h1>
-          <form className="container row" onSubmit={handleSubmit}>
+          <form
+            className="container row"
+            onSubmit={handleSubmit}
+            style={{ textAlign: "center" }}
+          >
             <div>
               <Calendar
                 className={"card"}
@@ -147,15 +179,17 @@ const EditEventForm = ({
               />
             </div>
             <div
+              className="event_form"
               style={{
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
-                height: "272px",
+                gap: "10px",
                 padding: "0.5rem",
                 margin: "1rem 0",
               }}
             >
+              <h4 style={{ margin: "0" }}>Venue</h4>
               <select
                 className="card"
                 onChange={(e) => setVenue(e.target.value)}
@@ -165,6 +199,7 @@ const EditEventForm = ({
                   <option key={venue.id}>{venue.name}</option>
                 ))}
               </select>
+              <h4 style={{ margin: "0" }}>Type</h4>
               <select
                 className="card"
                 onChange={(e) => setType(e.target.value)}
@@ -174,6 +209,7 @@ const EditEventForm = ({
                   <option key={type.id}>{type.name}</option>
                 ))}
               </select>
+              <h4 style={{ margin: "0" }}>Name</h4>
               <input
                 className="card"
                 type="text"
@@ -181,7 +217,9 @@ const EditEventForm = ({
                 value={name}
                 placeholder={event.name}
                 name="title"
+                required
               />
+              <h4 style={{ margin: "0" }}>Capacity</h4>
               <select
                 className="card"
                 onChange={(e) => setCapacity(e.target.value)}
@@ -226,6 +264,7 @@ const EditEventForm = ({
               </select>
               <div className="card">
                 <div>
+                  <h4 style={{ margin: "0" }}>Time</h4>
                   <select
                     className="card"
                     onChange={(e) => setTime(e.target.value)}
@@ -270,6 +309,11 @@ const EditEventForm = ({
                 eventId={event.id}
               />
             </div>
+            <ul>
+              {errors.map((error, idx) => (
+                <li key={idx}>{error}</li>
+              ))}
+            </ul>
           </form>
         </div>
       </div>
