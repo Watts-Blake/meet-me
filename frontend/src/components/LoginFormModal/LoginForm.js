@@ -37,7 +37,7 @@ function LoginForm({ title, setShowModal }) {
       </button>
       <div className="container column">
         <div className="container login_modal">
-          <div className="container column">
+          <div className="container column login">
             <form className="container column" onSubmit={handleSubmit}>
               <ul>
                 {errors.map((error, idx) => (
@@ -92,7 +92,7 @@ function LoginForm({ title, setShowModal }) {
           </div>
 
           <div className="container column">
-            <SignupFormPage className="container column">
+            <SignupFormPage className="container column sign_up">
               Sign Up
             </SignupFormPage>
           </div>

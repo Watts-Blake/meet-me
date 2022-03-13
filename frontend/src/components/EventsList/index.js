@@ -32,10 +32,11 @@ const EventList = ({ showEventListModal, setShowEventListModal }) => {
         <h1
           style={{
             position: "fixed",
-            top: "6px",
+            top: "23px",
             backgroundColor: "black",
             width: "auto",
             borderRadius: "5px",
+            zIndex: "1",
           }}
         >
           Up Coming Events
