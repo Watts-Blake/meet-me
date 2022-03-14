@@ -14,7 +14,7 @@ Upsquad is a community base website to look for local events and join groups to 
 
 # Getting Started
 
-## 1. Close this repo https://github.com/Watts-Blake/up-squad
+## 1. Clone this repo https://github.com/Watts-Blake/up-squad
 
 - git clone
 
