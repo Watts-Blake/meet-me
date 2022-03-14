@@ -13,7 +13,6 @@ const DeleteEvent = ({
 
   const handleDelete = async (e) => {
     e.preventDefault();
-    console.log("handle delete function", eventId);
     dispatch(deleteEvent(eventId));
     setShowSingleEventModal(false);
   };
@@ -21,7 +20,7 @@ const DeleteEvent = ({
   return (
     <div>
       <h1>Are You Sure You Want To Delete Your Event?</h1>
-      <button className="card" onClick={handleDelete}>
+      <button className="card collapse_delete" onClick={handleDelete}>
         Confirm Delete
       </button>
       {/* <button className="card collapse" onClick={handleDelete}>

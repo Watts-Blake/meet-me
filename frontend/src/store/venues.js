@@ -6,7 +6,6 @@ export const loadVenues = (venues) => {
 export const getVenues = () => async (dispatch) => {
   const res = await fetch("/api/venues");
   const venues = await res.json();
-  console.log("stooooooooooooooooore", venues);
   dispatch(loadVenues(venues));
 };
 

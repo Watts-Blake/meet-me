@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import * as sessionActions from "../../store/session";
 import { useDispatch } from "react-redux";
 import SignupFormPage from "../SignUpFormPage";
+import { Link } from "react-router-dom";
 
 function LoginForm({ title, setShowModal }) {
   const dispatch = useDispatch();
@@ -74,7 +75,7 @@ function LoginForm({ title, setShowModal }) {
               </div>
             </form>
           </div>
-          <div>
+          <div className="container column" style={{ textAlign: "center" }}>
             <span
               className="home__link"
               id="home__link__login"
@@ -83,7 +84,7 @@ function LoginForm({ title, setShowModal }) {
                 color: "red",
               }}
             >
-              <div className="container column">
+              <div className="container column" style={{ textAlign: "center" }}>
                 <h2>Up</h2>
                 <h2>Squad</h2>
               </div>
@@ -98,6 +99,24 @@ function LoginForm({ title, setShowModal }) {
           </div>
         </div>
       </div>
+      <footer className="container column gap">
+        <button className="collapse">
+          <a href="https://github.com/Watts-Blake/up-squad/wiki">
+            <i className="fa-brands fa-github"></i>
+          </a>
+        </button>
+        <button className="collapse">
+          <a href="https://www.linkedin.com/in/blake-watts-b91428123/">
+            <i className="fa-brands fa-linkedin"></i>
+          </a>
+        </button>
+        <button className="collapse">
+          <i className="fa-brands fa-react"></i>
+        </button>
+        <button className="collapse">
+          <i className="fa-brands fa-node-js"></i>
+        </button>
+      </footer>
     </div>
   );
 }

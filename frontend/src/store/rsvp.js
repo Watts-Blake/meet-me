@@ -6,7 +6,6 @@ export const loadRsvps = (rsvpList) => {
 };
 
 export const getRsvps = (eventId) => async (dispatch) => {
-  console.log(eventId);
   const res = await fetch(`/api/events/${eventId}/rsvp`);
   const rsvpList = await res.json();
   dispatch(loadRsvps(rsvpList));
@@ -36,7 +35,6 @@ export const removeRsvp = (rsvpId) => ({
   rsvpId,
 });
 export const deleteRsvp = (data) => async (dispatch) => {
-  console.log("hereeeeeeeeeeeeeeeeeeeee you bitch", data.eventId, data.userId);
   const res = await csrfFetch(`/api/events/${data.eventId}/${data.userId}`, {
     method: "DELETE",
     body: JSON.stringify(data),
@@ -45,7 +43,6 @@ export const deleteRsvp = (data) => async (dispatch) => {
   const rsvp = await res.json();
 
   dispatch(removeRsvp(rsvp.id));
-  console.log(rsvp);
 };
 //---------------------------------------------reducer----------------------------
 

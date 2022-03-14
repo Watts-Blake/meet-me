@@ -6,7 +6,6 @@ export const loadUsers = (users) => {
 export const getVenues = () => async (dispatch) => {
   const res = await fetch("/api/users");
   const users = await res.json();
-  console.log("stooooooooooooooooore", users);
   dispatch(loadUsers(users));
 };
 

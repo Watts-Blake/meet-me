@@ -32,7 +32,6 @@ const EventForm = ({ showModal, setShowModal }) => {
       submitErrors.push("You must be a logged in user to create an Event.");
       setVenue("");
     }
-    console.log(realVenue);
     if (!realVenue) {
       submitErrors.push("You must choose a venue for your Event.");
     }

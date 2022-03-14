@@ -55,9 +55,8 @@ const EditEventForm = ({
     setTypeId(newType.id);
     const realDate = `${value.toDateString()} ${time}`;
     setDate(realDate);
-    setHours(new Date(event.date).getHours());
-    setTime(hoursTransform(hours));
-    console.log(realDate);
+    // setHours(new Date(event.).getHours());
+    // setTime(hoursTransform(hours));
   }, [venue, type, allVenues, allTypes, time, value, hours, event.date]);
   //----------------------------------------------------------------------calendar stuff
   const eventsObj = useSelector((state) => state.event);

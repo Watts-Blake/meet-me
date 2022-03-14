@@ -37,7 +37,7 @@ function SignupFormPage() {
           <li key={idx}>{error}</li>
         ))}
       </ul>
-      <label className="container column">
+      <label className="container column signup">
         Email
         <input
           className="card"
