@@ -18,7 +18,10 @@ function EventListModal({ events }) {
           setShowEventListModal={setShowEventListModal}
           onClose={() => setShowEventListModal(false)}
         >
-          <EventList events={events} />
+          <EventList
+            events={events}
+            setShowEventListModal={setShowEventListModal}
+          />
         </Modal>
       )}
     </>

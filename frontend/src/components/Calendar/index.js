@@ -2,9 +2,11 @@ import Calendar from "react-calendar";
 import EventOnDay from "../EventsOnDay";
 import { differenceInCalendarDays, isBefore } from "date-fns";
 import { useDispatch, useSelector } from "react-redux";
+import { getEvents } from "../../store/eventReducer";
 import { useEffect, useState } from "react";
 
 const MyCalendar = () => {
+  const dispatch = useDispatch();
   const [value, setValue] = useState(new Date());
   const eventsObj = useSelector((state) => state.event);
   const events = Object.values(eventsObj);
@@ -37,6 +39,10 @@ const MyCalendar = () => {
     setValue(nextValue);
   }
 
+  // useEffect(() => {
+  //   dispatch(getEvents());
+  // }, [dispatch]);
+
   return (
     <div className="container row gap">
       <div className="main_calendar">
@@ -45,7 +51,6 @@ const MyCalendar = () => {
           onChange={onChange}
           value={value}
           tileContent={tileContent}
-          onClickDay={console.log(value)}
           id=""
         />
       </div>

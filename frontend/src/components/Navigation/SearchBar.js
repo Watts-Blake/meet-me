@@ -13,13 +13,13 @@ function SearchBar() {
           className=""
           type="search"
           name="search"
-          placeholder="Find your Squad!"
+          placeholder="Find your Squad!(inDev)"
         ></input>
         <input
           className=""
           type="search"
           name="location"
-          placeholder="City,State,Zip"
+          placeholder="City,State,Zip(inDev)"
         ></input>
       </form>
     </div>

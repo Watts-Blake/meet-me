@@ -5,6 +5,7 @@ import EditModal from "../EditForm/EditModal";
 import LoginFormModal from "../LoginFormModal";
 import { getRsvps, postRsvp, deleteRsvp } from "../../store/rsvp";
 import { getCurrentEvent } from "../../store/setCurrentEvent";
+import { getEvents } from "../../store/eventReducer";
 const hoursTransform = (hours) => {
   if (hours <= 12) {
     return `${hours}:00 AM`;
@@ -58,12 +59,15 @@ const SingleEvent = ({ setShowSingleEventModal, setShowEventListModal }) => {
     setCurrentRsvp(false);
   };
 
+  const handleBack = async (e) => {
+    e.preventDefault();
+    await dispatch(getEvents());
+    setShowSingleEventModal(false);
+  };
+
   return (
     <div className="top_modal_div">
-      <button
-        className="card collapse back"
-        onClick={() => setShowSingleEventModal(false)}
-      >
+      <button className="card collapse back" onClick={handleBack}>
         <i className="fa-solid fa-circle-chevron-left"></i>
       </button>
       <div className="singleArticle second_modal_div">
@@ -79,7 +83,7 @@ const SingleEvent = ({ setShowSingleEventModal, setShowEventListModal }) => {
         </div>
         <div className="container row gap">
           <div className="container row gap">
-            <h4>Attending</h4>
+            {currentUser && currentRsvp && <h4>Attending</h4>}
             <p>
               {rsvpList.length}/{event.capacity}
             </p>

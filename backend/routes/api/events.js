@@ -103,7 +103,7 @@ router
     requireAuth,
     asyncHandler(async (req, res) => {
       const eventId = req.params.id * 1;
-      console.log(req.params.id * 1);
+
       const event = await Event.findByPk(eventId);
 
       // if (req.session.auth.userId !== event.hostId) {
@@ -142,7 +142,7 @@ router
     asyncHandler(async (req, res) => {
       const eventId = req.params.id * 1;
       const userId = req.body.userId;
-      console.log("hereeeeeeeeeeeeeeeeeeeeeeeee", userId);
+
       const rsvpFind = await Rsvp.create({ eventId, userId });
       const rsvp = await Rsvp.findByPk(rsvpFind.id, { include: User });
       return res.json(rsvp);
@@ -168,10 +168,6 @@ router.route("/day/:id").get(
     const dateArr = dateUrl.split("%");
     const dateStr = dateArr.join(" ");
     const dateS = new Date(dateStr).toDateString();
-    console.log(
-      "hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
-      dateS
-    );
     const events = await Event.findAll({
       where: {
         date: {

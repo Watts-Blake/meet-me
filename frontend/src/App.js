@@ -40,11 +40,30 @@ function App() {
             <Slash></Slash>
           </Route>
           <Route path="*">404 the page youve requested does not exist</Route>
-          <Route path="/events/:id">
+          {/* <Route path="/events/:id">
             <SingleEventModal></SingleEventModal>
-          </Route>
+          </Route> */}
         </Switch>
       )}
+      <footer className="container row gap">
+        <h6>Blake Watts</h6>
+        <button className="collapse">
+          <a href="https://github.com/Watts-Blake/up-squad/wiki">
+            <i className="fa-brands fa-github"></i>
+          </a>
+        </button>
+        <button className="collapse">
+          <a href="https://www.linkedin.com/in/blake-watts-b91428123/">
+            <i className="fa-brands fa-linkedin"></i>
+          </a>
+        </button>
+        <button className="collapse">
+          <i className="fa-brands fa-react"></i>
+        </button>
+        <button className="collapse">
+          <i className="fa-brands fa-node-js"></i>
+        </button>
+      </footer>
     </div>
   );
 }

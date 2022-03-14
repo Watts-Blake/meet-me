@@ -23,38 +23,37 @@ const EventOnDay = ({ value, onChange }) => {
     }
   }, [value, eventsObj]);
 
-  if (!currentDayEvents) {
-    return (
-      <div className="container column gap border current_events">
-        <h2>{new Date(value).toDateString()}</h2>
-        <h3>No Events Scheduled</h3>
+  // if (!currentDayEvents) {
+  //   return (
+  //     <div className="container column gap border current_events">
+  //       <h2>{new Date(value).toDateString()}</h2>
+  //       <h3>No Events Scheduled</h3>
+  //       <CreateModal name={"Create an Event on this day"} />
+  //       <EventListModal></EventListModal>
+  //     </div>
+  //   );
+  // } else {
+  return (
+    <div className="container column border current_events">
+      <h2>{new Date(value).toDateString()}</h2>
+      {currentDayEvents.length < 1 && <h3>No Events Scheduled On This Day!</h3>}
+      <ul className="container column ">
+        {currentDayEvents &&
+          currentDayEvents.map((event) => (
+            <EventDetails
+              event={event}
+              key={event.id}
+              id={event.id}
+              name={event.name}
+            />
+          ))}
+      </ul>
+      <div className="container column gap">
         <CreateModal name={"Create an Event on this day"} />
-        <EventListModal></EventListModal>
+        <EventListModal events={events}></EventListModal>
       </div>
-    );
-  } else {
-    return (
-      <div className="container column border current_events">
-        <h2>{new Date(value).toDateString()}</h2>
-
-        <ul className="container column ">
-          {currentDayEvents &&
-            currentDayEvents.map((event) => (
-              <EventDetails
-                event={event}
-                key={event.id}
-                id={event.id}
-                name={event.name}
-              />
-            ))}
-        </ul>
-        <div className="container column gap">
-          <CreateModal name={"Create an Event on this day"} />
-          <EventListModal events={events}></EventListModal>
-        </div>
-      </div>
-    );
-  }
+    </div>
+  );
 };
 
 export default EventOnDay;

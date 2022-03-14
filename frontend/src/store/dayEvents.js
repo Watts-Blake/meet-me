@@ -9,11 +9,10 @@ export const loadDayEvents = (events) => {
 export const getDayEvents = (date) => async (dispatch) => {
   const res = await csrfFetch(`/api/events/day/${date}`);
   const events = await res.json();
-  console.log("jake im going to kiss you on the on the mouf", events);
   if (events) {
     dispatch(loadDayEvents(events));
   } else {
-    console.log("no dates");
+    return;
   }
 };
 

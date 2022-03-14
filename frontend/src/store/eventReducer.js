@@ -40,8 +40,6 @@ export const putEvent = (data) => async (dispatch) => {
     body: JSON.stringify(data),
   });
   const updatedEvent = await res.json();
-  console.log("babessssssssssssssssssssssss", updatedEvent);
-
   dispatch(updateEvent(updatedEvent));
 };
 
@@ -59,7 +57,6 @@ export const deleteEvent = (data) => async (dispatch) => {
   const eventId = await res.json();
 
   dispatch(removeEvent(eventId));
-  console.log(eventId);
 };
 //---------------------------------------------reducer----------------------------
 
