@@ -118,7 +118,7 @@ export const removeMember = (memberId) => ({
   memberId,
 });
 export const deleteMember = (data) => async (dispatch) => {
-  const res = await csrfFetch(`/api/groups/${data.eventId}/${data.userId}`, {
+  const res = await csrfFetch(`/api/groups/${data.groupId}/${data.userId}`, {
     method: "DELETE",
     body: JSON.stringify(data),
   });
@@ -164,18 +164,18 @@ const groupReducer = (
       return newState;
     }
     case LOAD_MEMBERS: {
-        action.memberList.forEach(member => {
-            return (newState.groupMemberList[member.id] = member)
-        })
-        return newState
+      action.memberList.forEach((member) => {
+        return (newState.groupMemberList[member.id] = member);
+      });
+      return newState;
     }
     case ADD_MEMBER: {
-        newState.groupMemberList[action.member.id] = {...action.member}
-        return newState
+      newState.groupMemberList[action.member.id] = { ...action.member };
+      return newState;
     }
     case DELETE_MEMBER: {
-        delete newState.groupMemberList[action.memberId]
-        return newState
+      delete newState.groupMemberList[action.memberId];
+      return newState;
     }
     default:
       return state;

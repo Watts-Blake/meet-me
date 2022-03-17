@@ -3,7 +3,13 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import EditModal from "../../EditForm/EditModal";
 import LoginFormModal from "../../LoginFormModal";
-import { postMember, deleteMember, getGroups } from "../../../store/groups";
+import {
+  postMember,
+  deleteMember,
+  getGroups,
+  getCurrentGroup,
+} from "../../../store/groups";
+import { getCurrentEvent } from "../../../store/setCurrentEvent";
 
 const SingleGroup = ({ setShowSingleGroupModal, setShowGroupListModal }) => {
   const dispatch = useDispatch();
@@ -28,23 +34,26 @@ const SingleGroup = ({ setShowSingleGroupModal, setShowGroupListModal }) => {
     setGroupOwner(currentUser && currentUser.id === group.ownerId);
   }, [memberList, currentUser, group]);
 
-  const handleJoin = (e) => {
+  const handleJoin = async (e) => {
     e.preventDefault();
     const member = {
       groupId: group.id,
       userId: currentUser.id,
     };
-    dispatch(postMember(member));
+    await dispatch(postMember(member));
+
     setCurrentMember(true);
   };
 
-  const handleLeave = (e) => {
+  const handleLeave = async (e) => {
     e.preventDefault();
+    console.log("hereeeeeeeeeeeeeeeeeee", group.id);
     const member = {
       groupId: group.id,
       userId: currentUser.id,
     };
-    dispatch(deleteMember(member));
+    await dispatch(deleteMember(member));
+
     setCurrentMember(false);
   };
 
