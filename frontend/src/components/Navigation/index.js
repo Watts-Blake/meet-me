@@ -7,6 +7,7 @@ import LoginFormModal from "../LoginFormModal";
 import SearchBar from "./SearchBar";
 import CreateModal from "../EventForm/FormModal";
 import EventListModal from "../EventsList/EventListModal";
+import GroupListModal from "../GroupsList/GroupsListModal";
 import "./Navigation.css";
 
 function Navigation({ isLoaded }) {
@@ -20,6 +21,7 @@ function Navigation({ isLoaded }) {
       <div className="container row gap">
         <CreateModal></CreateModal>
         <EventListModal />
+        <GroupListModal />
       </div>
     );
   } else {
@@ -38,6 +40,7 @@ function Navigation({ isLoaded }) {
               title={`You Must Be Signed In To Create an Event`}
             />
             <EventListModal />
+            <GroupListModal />
           </div>
         )}
       </div>

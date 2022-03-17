@@ -8,6 +8,7 @@ import typeReducer from "./types";
 import rsvpReducer from "./rsvp";
 import currentEventReducer from "./setCurrentEvent";
 import dayEventReducer from "./dayEvents";
+import groupReducer from "./groups";
 
 const rootReducer = combineReducers({
   // add reducer functions here
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   rsvp: rsvpReducer,
   currentEvent: currentEventReducer,
   dayEvents: dayEventReducer,
+  group: groupReducer,
 });
 
 let enhancer;

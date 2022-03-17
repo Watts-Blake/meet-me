@@ -7,6 +7,7 @@ import SingleEventModal from "./components/SingleEvent/SingleEventModal";
 import { getEvents } from "./store/eventReducer";
 import { getTypes } from "./store/types";
 import { getVenues } from "./store/venues";
+import { getGroups } from "./store/groups";
 import Slash from "./components/Slash";
 
 import * as sessionActions from "./store/session";
@@ -26,6 +27,7 @@ function App() {
 
   useEffect(() => {
     dispatch(getEvents());
+    dispatch(getGroups());
   }, [dispatch]);
 
   return (
