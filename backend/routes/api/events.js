@@ -52,8 +52,8 @@ router
     //create events
     requireAuth,
     asyncHandler(async (req, res) => {
-      const updatedEvent = await Event.create(req.body);
-      const event = await Event.findByPk(updatedEvent.id, {
+      const newEvent = await Event.create(req.body);
+      const event = await Event.findByPk(newEvent.id, {
         include: [
           { model: User },
           { model: Type },

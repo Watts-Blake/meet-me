@@ -13,6 +13,7 @@ const usersRouter = require("./users.js");
 const eventsRouter = require("./events.js");
 const venuesRouter = require("./venues");
 const typesRouter = require("./types");
+const groupsRouter = require("./groups");
 //---------------------------------------------------------------------routers imports---------------------------------------------------------------
 //
 //
@@ -23,6 +24,7 @@ router.use("/users", usersRouter);
 router.use("/events", eventsRouter);
 router.use("/venues", venuesRouter);
 router.use("/types", typesRouter);
+router.use("/groups", groupsRouter);
 //---------------------------------------------------------------------routers-----------------------------------------------------------------------
 //
 //
