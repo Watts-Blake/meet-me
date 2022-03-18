@@ -16,24 +16,21 @@ import Navigation from "./components/Navigation";
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
-  useEffect(() => {
-    dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
-  }, [dispatch]);
 
   useEffect(() => {
-    dispatch(getTypes());
-    dispatch(getVenues());
-  });
-
-  useEffect(() => {
-    dispatch(getEvents());
-    dispatch(getGroups());
+    dispatch(sessionActions.restoreUser())
+      .then(() => dispatch(getVenues()))
+      .then(() => dispatch(getTypes()))
+      .then(() => dispatch(getEvents()))
+      .then(() => dispatch(getGroups()))
+      .then(() => setIsLoaded(true));
   }, [dispatch]);
 
   return (
-    <div className="app">
-      <Navigation className="nav" isLoaded={isLoaded} />
-      {isLoaded && (
+    isLoaded && (
+      <div className="app">
+        <Navigation className="nav" isLoaded={isLoaded} />
+
         <Switch>
           <Route path="/signup">
             <SignUpFormPage />
@@ -46,27 +43,28 @@ function App() {
             <SingleEventModal></SingleEventModal>
           </Route> */}
         </Switch>
-      )}
-      <footer className="container row gap">
-        <h6>Blake Watts</h6>
-        <button className="collapse">
-          <a href="https://github.com/Watts-Blake/up-squad/wiki">
-            <i className="fa-brands fa-github"></i>
-          </a>
-        </button>
-        <button className="collapse">
-          <a href="https://www.linkedin.com/in/blake-watts-b91428123/">
-            <i className="fa-brands fa-linkedin"></i>
-          </a>
-        </button>
-        <button className="collapse">
-          <i className="fa-brands fa-react"></i>
-        </button>
-        <button className="collapse">
-          <i className="fa-brands fa-node-js"></i>
-        </button>
-      </footer>
-    </div>
+
+        <footer className="container row gap">
+          <h6>Blake Watts</h6>
+          <button className="collapse">
+            <a href="https://github.com/Watts-Blake/up-squad/wiki">
+              <i className="fa-brands fa-github"></i>
+            </a>
+          </button>
+          <button className="collapse">
+            <a href="https://www.linkedin.com/in/blake-watts-b91428123/">
+              <i className="fa-brands fa-linkedin"></i>
+            </a>
+          </button>
+          <button className="collapse">
+            <i className="fa-brands fa-react"></i>
+          </button>
+          <button className="collapse">
+            <i className="fa-brands fa-node-js"></i>
+          </button>
+        </footer>
+      </div>
+    )
   );
 }
 

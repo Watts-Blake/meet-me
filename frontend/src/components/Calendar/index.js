@@ -6,7 +6,6 @@ import { getEvents } from "../../store/eventReducer";
 import { useEffect, useState } from "react";
 
 const MyCalendar = () => {
-  const dispatch = useDispatch();
   const [value, setValue] = useState(new Date());
   const eventsObj = useSelector((state) => state.event);
   const events = Object.values(eventsObj);
