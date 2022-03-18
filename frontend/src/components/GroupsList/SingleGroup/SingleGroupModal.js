@@ -18,19 +18,15 @@ const SingleGroupModal = ({
   console.log(group);
   const handleClick = async (e) => {
     e.preventDefault();
-    console.log(group);
-    await dispatch(getCurrentGroup(group.id));
-    await dispatch(getMembers(group.id));
+
+    await dispatch(getCurrentGroup(group.id)).then(() =>
+      dispatch(getMembers(group.id))
+    );
     setShowSingleGroupModal(true);
   };
   return (
-    <div className="container column list_button" style={{ width: "90%" }}>
-      <button
-        className="collapse container column"
-        id="event_list_button"
-        style={{ maxHeight: "100px", width: "100%" }}
-        onClick={handleClick}
-      >
+    <li className="group_li">
+      <button className="collapse group_li_button" onClick={handleClick}>
         <span className="container row gap" style={{ height: "10px" }}>
           {group.name.toUpperCase()}
         </span>
@@ -50,7 +46,7 @@ const SingleGroupModal = ({
           ></SingleGroup>
         </Modal>
       )}
-    </div>
+    </li>
   );
 };
 

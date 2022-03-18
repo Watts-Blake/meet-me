@@ -1,20 +1,14 @@
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import { useEffect } from "react";
+import SingleGroupModal from "../SingleGroup/SingleGroupModal";
 const GroupSlash = ({ groupsList }) => {
-  const [isLoaded, setIsLoaded] = useState(false);
-
   return (
-    <div
-      style={{ overflowY: "auto", width: "80vw" }}
-      className="container row gap splash_group"
-    >
+    <ul className="splash_group_ul">
       {groupsList.map((group) => (
-        <div className="container column" key={group.id} group={group}>
-          <h4>{group.name}</h4>
-        </div>
+        <SingleGroupModal key={group.id} group={group} />
       ))}
-    </div>
+    </ul>
   );
 };
 

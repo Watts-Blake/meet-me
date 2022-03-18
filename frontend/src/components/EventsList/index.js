@@ -9,7 +9,7 @@ const EventList = ({ showEventListModal, setShowEventListModal }) => {
   return (
     <div className="top_modal_div">
       <button
-        className="card collapse back"
+        className="card collapse back each_item"
         style={{
           display: "flex",
           flexDirection: "column",
